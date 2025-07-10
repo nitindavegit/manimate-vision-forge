@@ -40,17 +40,13 @@ All colors MUST be HSL.
 
     /* Custom design tokens for Manimate */
     --gradient-primary: linear-gradient(135deg, hsl(193 100% 50%) 0%, hsl(270 100% 60%) 100%);
-    --gradient-background: radial-gradient(ellipse at top, hsl(222 47% 6%) 0%, hsl(222 47% 3%) 50%, hsl(220 50% 2%) 100%);
-    --gradient-mesh: conic-gradient(from 0deg at 50% 50%, hsl(193 100% 50% / 0.1) 0deg, hsl(270 100% 60% / 0.1) 90deg, hsl(193 100% 50% / 0.1) 180deg, hsl(270 100% 60% / 0.1) 270deg, hsl(193 100% 50% / 0.1) 360deg);
-    --glow-cyan: 0 0 20px hsl(193 100% 50% / 0.5);
-    --glow-purple: 0 0 20px hsl(270 100% 60% / 0.3);
+    --gradient-background: linear-gradient(180deg, hsl(222 47% 3%) 0%, hsl(225 25% 6%) 100%);
+    --glow-cyan: 0 0 20px hsl(193 100% 50% / 0.3);
+    --glow-purple: 0 0 20px hsl(270 100% 60% / 0.2);
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* Animated grid pattern */
-    --grid-size: 60px;
-    --grid-pattern: 
-      linear-gradient(hsl(193 100% 50% / 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(193 100% 50% / 0.1) 1px, transparent 1px);
+    /* Subtle grid pattern */
+    --grid-pattern: radial-gradient(circle at 1px 1px, hsl(193 100% 50% / 0.1) 1px, transparent 0);
 
     --radius: 0.75rem;
 
