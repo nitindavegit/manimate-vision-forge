@@ -161,7 +161,7 @@ const GeneratePage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="h-full">
-                <div className="rounded-lg bg-muted/50 border border-border/30 h-[400px] flex items-center justify-center relative overflow-hidden">
+                <div className="rounded-lg bg-muted/50 border border-border/30 min-h-[50vh] md:h-[400px] flex items-center justify-center relative overflow-hidden">
                   {isGenerating ? (
                     <div className="text-center space-y-4">
                       <div className="relative w-16 h-16 mx-auto">
@@ -174,12 +174,29 @@ const GeneratePage = () => {
                       </div>
                     </div>
                   ) : videoUrl ? (
-                    <video
-                      src={videoUrl}
-                      controls
-                      className="w-full h-full object-cover rounded-lg"
-                      poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23ffffff' font-family='Inter' font-size='18'%3EGenerated Animation%3C/text%3E%3C/svg%3E"
-                    />
+                    <div className="w-full h-full relative">
+                      <video
+                        src={videoUrl}
+                        controls
+                        className="w-full h-full object-contain rounded-lg max-h-[80vh]"
+                        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23ffffff' font-family='Inter' font-size='18'%3EGenerated Animation%3C/text%3E%3C/svg%3E"
+                        style={{ maxHeight: '80vh', width: 'auto', margin: '0 auto', display: 'block' }}
+                      />
+                      <Button 
+                        className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 backdrop-blur-sm"
+                        size="sm"
+                        onClick={() => {
+                          const video = document.querySelector('video');
+                          if (video) {
+                            if (video.requestFullscreen) {
+                              video.requestFullscreen();
+                            }
+                          }
+                        }}
+                      >
+                        Full Screen
+                      </Button>
+                    </div>
                   ) : (
                     <div className="text-center space-y-4">
                       <div className="w-16 h-16 mx-auto bg-muted-foreground/20 rounded-full flex items-center justify-center">
