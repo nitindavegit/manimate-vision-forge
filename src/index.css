@@ -40,13 +40,17 @@ All colors MUST be HSL.
 
     /* Custom design tokens for Manimate */
     --gradient-primary: linear-gradient(135deg, hsl(193 100% 50%) 0%, hsl(270 100% 60%) 100%);
-    --gradient-background: linear-gradient(180deg, hsl(222 47% 3%) 0%, hsl(225 25% 6%) 100%);
+    --gradient-background: radial-gradient(ellipse at top, hsl(222 47% 6%) 0%, hsl(222 47% 3%) 50%, hsl(220 50% 2%) 100%);
+    --gradient-mesh: conic-gradient(from 0deg at 50% 50%, hsl(193 100% 50% / 0.1) 0deg, hsl(270 100% 60% / 0.1) 90deg, hsl(193 100% 50% / 0.1) 180deg, hsl(270 100% 60% / 0.1) 270deg, hsl(193 100% 50% / 0.1) 360deg);
     --glow-cyan: 0 0 20px hsl(193 100% 50% / 0.5);
     --glow-purple: 0 0 20px hsl(270 100% 60% / 0.3);
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* Grid pattern for backgrounds */
-    --grid-pattern: url("data:image/svg+xml,%3csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill='none' fill-rule='evenodd'%3e%3cg fill='%23ffffff' fill-opacity='0.05'%3e%3cpath d='M60 30L30 60L0 30L30 0z'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e");
+    /* Animated grid pattern */
+    --grid-size: 60px;
+    --grid-pattern: 
+      linear-gradient(hsl(193 100% 50% / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(193 100% 50% / 0.1) 1px, transparent 1px);
 
     --radius: 0.75rem;
 
