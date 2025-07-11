@@ -25,6 +25,7 @@ const GeneratePage = () => {
     setIsGenerating(true);
     
     try {
+      // Replace with your actual FastAPI backend URL
       const response = await fetch("http://localhost:8000/generate/", {
         method: "POST",
         headers: {
@@ -35,23 +36,22 @@ const GeneratePage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setVideoUrl(data.video_url || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+        setVideoUrl(data.video_url);
         toast({
           title: "Video generated!",
           description: "Your animation is ready to view.",
         });
       } else {
-        throw new Error("Generation failed");
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Generation failed");
       }
     } catch (error) {
-      // For demo purposes, simulate success with placeholder video
-      setTimeout(() => {
-        setVideoUrl("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
-        toast({
-          title: "Demo video loaded",
-          description: "This is a placeholder video since the API is not available.",
-        });
-      }, 3000);
+      console.error("Generation error:", error);
+      toast({
+        title: "Generation failed",
+        description: error instanceof Error ? error.message : "An unexpected error occurred.",
+        variant: "destructive",
+      });
     } finally {
       setIsGenerating(false);
     }
