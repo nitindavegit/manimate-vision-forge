@@ -80,7 +80,7 @@ const Index = () => {
           <div className={`space-y-8 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {!showPrompt ? (
               <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-6 md:p-8">
-                <Link to="/generate">
+                <Link to="/auth">
                   <Button
                     variant="default" 
                     size="lg"
@@ -202,7 +202,7 @@ const Index = () => {
                   <Sparkles className="h-12 w-12 text-primary animate-pulse" />
                 </div>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold">Ready to Visualize Smarter? Let's Go</h3>
-                <Link to="/generate">
+                <Link to="/auth">
                   <Button 
                     variant="default" 
                     size="lg"
