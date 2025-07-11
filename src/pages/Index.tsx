@@ -33,7 +33,7 @@ const Index = () => {
       <div className={`absolute top-6 left-6 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         <div className="flex items-center">
           <img 
-            src="/lovable-uploads/6236e1b9-2a7c-444d-95d5-b8b96e031c3b.png" 
+            src="/lovable-uploads/b5ec7487-efae-495b-b279-ffc4365662e9.png" 
             alt="Manimate Logo" 
             className="w-20 h-20 object-contain" 
           />
