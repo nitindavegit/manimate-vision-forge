@@ -29,19 +29,19 @@ const Index = () => {
       <div className="absolute inset-0 bg-grid-pattern opacity-5" style={{ backgroundSize: '60px 60px' }} />
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
       
-      {/* Logo centered at top */}
-      <div className={`absolute top-8 left-1/2 transform -translate-x-1/2 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+      {/* Logo positioned higher and smaller */}
+      <div className={`absolute top-4 left-1/2 transform -translate-x-1/2 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         <div className="flex items-center justify-center">
           <img 
             src="/lovable-uploads/6236e1b9-2a7c-444d-95d5-b8b96e031c3b.png" 
             alt="Manimate Logo" 
-            className="w-16 h-16 object-contain" 
+            className="w-12 h-12 object-contain" 
           />
         </div>
       </div>
 
-      {/* Navigation in top right */}
-      <nav className={`absolute top-8 right-8 z-10 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+      {/* Navigation positioned higher to avoid overlap */}
+      <nav className={`absolute top-4 right-4 z-10 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         <Card className="bg-card/80 backdrop-blur-xl border-border/20">
           <CardContent className="p-3">
             <div className="flex items-center space-x-3">
