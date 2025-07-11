@@ -29,13 +29,13 @@ const Index = () => {
       <div className="absolute inset-0 bg-grid-pattern opacity-5" style={{ backgroundSize: '60px 60px' }} />
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
       
-      {/* Logo positioned higher and smaller */}
-      <div className={`absolute top-4 left-1/2 transform -translate-x-1/2 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-        <div className="flex items-center justify-center">
+      {/* Logo in top left corner */}
+      <div className={`absolute top-6 left-6 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+        <div className="flex items-center">
           <img 
             src="/lovable-uploads/6236e1b9-2a7c-444d-95d5-b8b96e031c3b.png" 
             alt="Manimate Logo" 
-            className="w-12 h-12 object-contain" 
+            className="w-20 h-20 object-contain" 
           />
         </div>
       </div>
