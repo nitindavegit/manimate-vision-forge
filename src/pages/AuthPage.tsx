@@ -85,11 +85,20 @@ const AuthPage = () => {
       });
 
       if (error) {
-        toast({
-          title: "Signup failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        // Check if it's a duplicate email error
+        if (error.message.includes("already registered") || error.message.includes("already exists")) {
+          toast({
+            title: "Email already registered",
+            description: "This email is already registered. Please try logging in instead.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Signup failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        }
       } else {
         toast({
           title: "Account created!",
