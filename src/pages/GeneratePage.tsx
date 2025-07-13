@@ -1,16 +1,87 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Loader2, Play, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const GeneratePage = () => {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
+  const [user, setUser] = useState<User | null>(null);
+  const [currentPromptId, setCurrentPromptId] = useState<string | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  // Check authentication on component mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/auth");
+        return;
+      }
+      setUser(user);
+    };
+
+    checkAuth();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session?.user) {
+        navigate("/auth");
+      } else {
+        setUser(session.user);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  // Save prompt to database
+  const savePromptToDatabase = async (promptText: string, status: string = 'processing', videoUrl?: string) => {
+    if (!user) return null;
+
+    try {
+      const { data, error } = await supabase
+        .from('user_prompts')
+        .insert({
+          user_id: user.id,
+          prompt_text: promptText,
+          generation_status: status,
+          video_url: videoUrl || null
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data.id;
+    } catch (error) {
+      console.error('Error saving prompt:', error);
+      return null;
+    }
+  };
+
+  // Update prompt status in database
+  const updatePromptInDatabase = async (promptId: string, status: string, videoUrl?: string) => {
+    if (!promptId) return;
+
+    try {
+      await supabase
+        .from('user_prompts')
+        .update({
+          generation_status: status,
+          video_url: videoUrl || null
+        })
+        .eq('id', promptId);
+    } catch (error) {
+      console.error('Error updating prompt:', error);
+    }
+  };
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -22,7 +93,20 @@ const GeneratePage = () => {
       return;
     }
 
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to generate animations.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
+    
+    // Save prompt to database when generation starts
+    const promptId = await savePromptToDatabase(prompt, 'processing');
+    setCurrentPromptId(promptId);
     
     try {
       // Replace with your actual FastAPI backend URL
@@ -37,16 +121,34 @@ const GeneratePage = () => {
       if (response.ok) {
         const data = await response.json();
         setVideoUrl(data.video_url);
+        
+        // Update database with successful generation
+        if (promptId) {
+          await updatePromptInDatabase(promptId, 'completed', data.video_url);
+        }
+        
         toast({
           title: "Video generated!",
           description: "Your animation is ready to view.",
         });
       } else {
         const errorData = await response.json();
+        
+        // Update database with failed status
+        if (promptId) {
+          await updatePromptInDatabase(promptId, 'failed');
+        }
+        
         throw new Error(errorData.detail || "Generation failed");
       }
     } catch (error) {
       console.error("Generation error:", error);
+      
+      // Update database with failed status
+      if (currentPromptId) {
+        await updatePromptInDatabase(currentPromptId, 'failed');
+      }
+      
       toast({
         title: "Generation failed",
         description: error instanceof Error ? error.message : "An unexpected error occurred.",
