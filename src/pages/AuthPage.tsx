@@ -108,6 +108,34 @@ const AuthPage = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/generate`
+        }
+      });
+
+      if (error) {
+        toast({
+          title: "Google sign-in failed",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Google sign-in failed",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-background relative overflow-hidden">
       {/* Background grid pattern */}
@@ -185,7 +213,13 @@ const AuthPage = () => {
                   </div>
                 </div>
                 
-                <Button variant="outline" size="lg" className="w-full">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="w-full"
+                  onClick={() => handleGoogleSignIn()}
+                  disabled={isLoading}
+                >
                   Continue with Google
                 </Button>
               </TabsContent>
@@ -254,7 +288,13 @@ const AuthPage = () => {
                   </div>
                 </div>
                 
-                <Button variant="outline" size="lg" className="w-full">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="w-full"
+                  onClick={() => handleGoogleSignIn()}
+                  disabled={isLoading}
+                >
                   Continue with Google
                 </Button>
               </TabsContent>
