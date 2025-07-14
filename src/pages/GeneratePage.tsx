@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2, Play, Download } from "lucide-react";
+import { ArrowLeft, Loader2, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -83,6 +83,31 @@ const GeneratePage = () => {
     }
   };
 
+  // Check daily generation limit
+  const checkDailyLimit = async () => {
+    if (!user) return false;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    try {
+      const { count, error } = await supabase
+        .from('user_prompts')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .gte('created_at', today.toISOString())
+        .lt('created_at', tomorrow.toISOString());
+
+      if (error) throw error;
+      return (count || 0) >= 2;
+    } catch (error) {
+      console.error('Error checking daily limit:', error);
+      return false;
+    }
+  };
+
   const handleGenerate = async () => {
     if (!prompt.trim()) {
       toast({
@@ -102,6 +127,17 @@ const GeneratePage = () => {
       return;
     }
 
+    // Check daily limit
+    const limitReached = await checkDailyLimit();
+    if (limitReached) {
+      toast({
+        title: "Daily limit reached",
+        description: "You can generate up to 2 videos per day. Try again tomorrow!",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
     
     // Save prompt to database when generation starts
@@ -109,8 +145,8 @@ const GeneratePage = () => {
     setCurrentPromptId(promptId);
     
     try {
-      // Replace with your actual FastAPI backend URL
-      const response = await fetch("http://localhost:8000/generate/", {
+        // Replace with your hosted FastAPI backend URL
+        const response = await fetch("http://localhost:8000/generate/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -252,14 +288,8 @@ const GeneratePage = () => {
           <div className="space-y-6">
             <Card className="bg-card/80 backdrop-blur-xl border-border/50 h-full">
               <CardHeader>
-                <CardTitle className="text-xl font-semibold flex items-center justify-between">
+                <CardTitle className="text-xl font-semibold">
                   Generated Animation
-                  {videoUrl && (
-                    <Button variant="outline" size="sm">
-                      <Download className="h-4 w-4 mr-2" />
-                      Download
-                    </Button>
-                  )}
                 </CardTitle>
               </CardHeader>
               <CardContent className="h-full">
@@ -280,6 +310,8 @@ const GeneratePage = () => {
                       <video
                         src={videoUrl}
                         controls
+                        controlsList="nodownload"
+                        onContextMenu={(e) => e.preventDefault()}
                         className="w-full h-full object-contain rounded-lg max-h-[80vh]"
                         poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23ffffff' font-family='Inter' font-size='18'%3EGenerated Animation%3C/text%3E%3C/svg%3E"
                         style={{ maxHeight: '80vh', width: 'auto', margin: '0 auto', display: 'block' }}
