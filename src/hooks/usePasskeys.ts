@@ -94,35 +94,26 @@ export const usePasskeys = () => {
 
       const response = credential.response as AuthenticatorAttestationResponse;
 
-      // Store credential info in Supabase (in a custom table)
+      // Store credential info via our backend edge function
       const credentialData = {
         credential_id: arrayBufferToBase64Url(credential.rawId),
         public_key: arrayBufferToBase64Url(response.getPublicKey()!),
         username,
-        display_name: displayName,
-        user_id_buffer: arrayBufferToBase64Url(userId),
+        displayName,
+        userIdBuffer: arrayBufferToBase64Url(userId),
       };
 
-      // For now, we'll create a user in Supabase with a dummy email and password
-      // In a real implementation, you'd store the passkey data in a custom table
-      const dummyEmail = `${username}@passkey.local`;
-      const dummyPassword = crypto.getRandomValues(new Uint8Array(32)).toString();
-
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: dummyEmail,
-        password: dummyPassword,
-        options: {
-          data: {
-            full_name: displayName,
-            auth_method: 'passkey',
-            credential_id: credentialData.credential_id,
-            public_key: credentialData.public_key,
-            username: username,
-          }
+      // Call our passkey registration edge function
+      const { data: registrationResult, error: registrationError } = await supabase.functions.invoke(
+        'passkey-register',
+        {
+          body: credentialData
         }
-      });
+      );
 
-      if (authError) throw authError;
+      if (registrationError || !registrationResult?.success) {
+        throw new Error(registrationResult?.error || 'Registration failed');
+      }
 
       // Store the credential ID in localStorage for future authentication
       localStorage.setItem('passkey_credential_id', credentialData.credential_id);
@@ -191,19 +182,31 @@ export const usePasskeys = () => {
         throw new Error('Authentication failed');
       }
 
-      // In a real implementation, you would verify the signature on the server
-      // For now, we'll just sign in with the dummy credentials
-      const dummyEmail = `${username}@passkey.local`;
-      
-      // We can't retrieve the original password, so we'll use a workaround
-      // In practice, you'd implement a custom authentication flow
+      const response = credential.response as AuthenticatorAssertionResponse;
+
+      // Call our passkey authentication edge function
+      const { data: authResult, error: authError } = await supabase.functions.invoke(
+        'passkey-authenticate',
+        {
+          body: {
+            credentialId,
+            signature: arrayBufferToBase64Url(response.signature),
+            authenticatorData: arrayBufferToBase64Url(response.authenticatorData),
+            clientDataJSON: arrayBufferToBase64Url(response.clientDataJSON),
+            challenge: arrayBufferToBase64Url(challenge)
+          }
+        }
+      );
+
+      if (authError || !authResult?.success) {
+        throw new Error(authResult?.error || 'Authentication failed');
+      }
+
       toast({
         title: "Authentication successful!",
         description: "You have been successfully authenticated with your passkey.",
       });
 
-      // Manually set the session (this is a simplified approach)
-      // In production, you'd have a proper server-side verification
       return true;
     } catch (error: any) {
       console.error('Passkey authentication error:', error);

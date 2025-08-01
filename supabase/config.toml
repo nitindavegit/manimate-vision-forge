@@ -1,1 +1,7 @@
 project_id = "tgoxmiimrdbbkonicfqk"
+
+[functions.passkey-register]
+verify_jwt = false
+
+[functions.passkey-authenticate]
+verify_jwt = false
