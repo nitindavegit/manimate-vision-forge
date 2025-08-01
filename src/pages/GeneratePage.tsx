@@ -155,11 +155,13 @@ const GeneratePage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setVideoUrl(data.video_url);
+        // Use the full backend URL for the video
+        const fullVideoUrl = `https://manimate-backend.onrender.com${data.video_url}`;
+        setVideoUrl(fullVideoUrl);
         
         // Update database with successful generation
         if (promptId) {
-          await updatePromptInDatabase(promptId, 'completed', data.video_url);
+          await updatePromptInDatabase(promptId, 'completed', fullVideoUrl);
         }
         
         toast({

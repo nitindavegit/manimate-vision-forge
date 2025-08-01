@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useKeepAlive } from "@/hooks/useKeepAlive";
 import Index from "./pages/Index";
 import AuthPage from "./pages/AuthPage";
-import PasskeyAuthPage from "./pages/PasskeyAuthPage";
 import GeneratePage from "./pages/GeneratePage";
 import NotFound from "./pages/NotFound";
 
@@ -24,8 +23,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<PasskeyAuthPage />} />
-            <Route path="/legacy-auth" element={<AuthPage />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/generate" element={<GeneratePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
