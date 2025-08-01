@@ -145,8 +145,7 @@ const GeneratePage = () => {
     setCurrentPromptId(promptId);
     
     try {
-        // Replace with your hosted FastAPI backend URL
-        const response = await fetch("http://localhost:8000/generate/", {
+        const response = await fetch("https://manimate-backend.onrender.com/generate/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

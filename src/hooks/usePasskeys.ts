@@ -45,10 +45,20 @@ export const usePasskeys = () => {
   const { toast } = useToast();
 
   const register = useCallback(async (username: string, displayName: string) => {
+    // Check if we're in a secure context and WebAuthn is supported
+    if (!window.isSecureContext) {
+      toast({
+        title: "Secure context required",
+        description: "Passkeys require HTTPS or localhost. Please use a secure connection.",
+        variant: "destructive",
+      });
+      return false;
+    }
+
     if (!isWebAuthnSupported()) {
       toast({
         title: "Passkeys not supported",
-        description: "Your browser doesn't support passkeys. Please use a modern browser.",
+        description: "Your browser doesn't support passkeys. Please use a modern browser or try traditional login.",
         variant: "destructive",
       });
       return false;
@@ -64,7 +74,7 @@ export const usePasskeys = () => {
         challenge,
         rp: {
           name: "Manimate",
-          id: window.location.hostname,
+          id: window.location.hostname === 'localhost' ? 'localhost' : window.location.hostname,
         },
         user: {
           id: userId,
@@ -76,11 +86,11 @@ export const usePasskeys = () => {
           { alg: -257, type: "public-key" }, // RS256
         ],
         authenticatorSelection: {
-          authenticatorAttachment: "platform",
-          userVerification: "required",
+          authenticatorAttachment: "cross-platform", // Changed from "platform" to support more devices
+          userVerification: "preferred", // Changed from "required" to "preferred"
         },
         timeout: 60000,
-        attestation: "direct",
+        attestation: "none", // Changed from "direct" to "none" for better compatibility
       };
 
       // Create credential
