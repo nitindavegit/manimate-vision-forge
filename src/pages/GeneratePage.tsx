@@ -14,6 +14,8 @@ const GeneratePage = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [user, setUser] = useState<User | null>(null);
   const [currentPromptId, setCurrentPromptId] = useState<string | null>(null);
+  const [videoError, setVideoError] = useState<string | null>(null);
+  const [videoLoading, setVideoLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -155,8 +157,15 @@ const GeneratePage = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Backend response:", data);
+        
         // Use the full backend URL for the video
         const fullVideoUrl = `https://manimate-backend.onrender.com${data.video_url}`;
+        console.log("Constructed video URL:", fullVideoUrl);
+        
+        // Reset video error state
+        setVideoError(null);
+        setVideoLoading(true);
         setVideoUrl(fullVideoUrl);
         
         // Update database with successful generation
@@ -306,31 +315,99 @@ const GeneratePage = () => {
                         <p className="text-sm text-muted-foreground">This usually takes 30-60 seconds</p>
                       </div>
                     </div>
-                  ) : videoUrl ? (
+                   ) : videoUrl ? (
                     <div className="w-full h-full relative">
-                      <video
-                        src={videoUrl}
-                        controls
-                        controlsList="nodownload"
-                        onContextMenu={(e) => e.preventDefault()}
-                        className="w-full h-full object-contain rounded-lg max-h-[80vh]"
-                        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23ffffff' font-family='Inter' font-size='18'%3EGenerated Animation%3C/text%3E%3C/svg%3E"
-                        style={{ maxHeight: '80vh', width: 'auto', margin: '0 auto', display: 'block' }}
-                      />
-                      <Button 
-                        className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 backdrop-blur-sm"
-                        size="sm"
-                        onClick={() => {
-                          const video = document.querySelector('video');
-                          if (video) {
-                            if (video.requestFullscreen) {
-                              video.requestFullscreen();
-                            }
-                          }
-                        }}
-                      >
-                        Full Screen
-                      </Button>
+                      {videoLoading && !videoError && (
+                        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-10">
+                          <div className="text-center space-y-2">
+                            <Loader2 className="h-8 w-8 animate-spin mx-auto" />
+                            <p className="text-sm text-muted-foreground">Loading video...</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {videoError ? (
+                        <div className="text-center space-y-4 p-6">
+                          <div className="w-16 h-16 mx-auto bg-destructive/20 rounded-full flex items-center justify-center">
+                            <Play className="w-8 h-8 text-destructive" />
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-lg font-medium text-destructive">Video loading failed</p>
+                            <p className="text-sm text-muted-foreground">{videoError}</p>
+                            <div className="space-y-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setVideoError(null);
+                                  setVideoLoading(true);
+                                  // Force reload the video
+                                  const video = document.querySelector('video');
+                                  if (video) {
+                                    video.load();
+                                  }
+                                }}
+                              >
+                                Retry Loading
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  window.open(videoUrl, '_blank');
+                                }}
+                              >
+                                Open in New Tab
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <video
+                            src={videoUrl}
+                            controls
+                            controlsList="nodownload"
+                            onContextMenu={(e) => e.preventDefault()}
+                            className="w-full h-full object-contain rounded-lg max-h-[80vh]"
+                            poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23ffffff' font-family='Inter' font-size='18'%3EGenerated Animation%3C/text%3E%3C/svg%3E"
+                            style={{ maxHeight: '80vh', width: 'auto', margin: '0 auto', display: 'block' }}
+                            onLoadStart={() => {
+                              console.log("Video load started for:", videoUrl);
+                              setVideoLoading(true);
+                              setVideoError(null);
+                            }}
+                            onCanPlay={() => {
+                              console.log("Video can play:", videoUrl);
+                              setVideoLoading(false);
+                            }}
+                            onError={(e) => {
+                              console.error("Video error:", e);
+                              console.error("Failed video URL:", videoUrl);
+                              setVideoLoading(false);
+                              setVideoError("Failed to load video. The file might not exist or the server might be unavailable.");
+                            }}
+                            onLoad={() => {
+                              console.log("Video loaded successfully:", videoUrl);
+                              setVideoLoading(false);
+                            }}
+                          />
+                          <Button 
+                            className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 backdrop-blur-sm"
+                            size="sm"
+                            onClick={() => {
+                              const video = document.querySelector('video');
+                              if (video) {
+                                if (video.requestFullscreen) {
+                                  video.requestFullscreen();
+                                }
+                              }
+                            }}
+                          >
+                            Full Screen
+                          </Button>
+                        </>
+                      )}
                     </div>
                   ) : (
                     <div className="text-center space-y-4">
