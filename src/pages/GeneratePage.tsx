@@ -129,16 +129,16 @@ const GeneratePage = () => {
       return;
     }
 
-    // Check daily limit
-    const limitReached = await checkDailyLimit();
-    if (limitReached) {
-      toast({
-        title: "Daily limit reached",
-        description: "You can generate up to 2 videos per day. Try again tomorrow!",
-        variant: "destructive",
-      });
-      return;
-    }
+    // Daily limit check temporarily disabled for testing
+    // const limitReached = await checkDailyLimit();
+    // if (limitReached) {
+    //   toast({
+    //     title: "Daily limit reached",
+    //     description: "You can generate up to 2 videos per day. Try again tomorrow!",
+    //     variant: "destructive",
+    //   });
+    //   return;
+    // }
 
     setIsGenerating(true);
     
