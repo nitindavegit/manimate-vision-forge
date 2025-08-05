@@ -129,16 +129,16 @@ const GeneratePage = () => {
       return;
     }
 
-    // Daily limit check temporarily disabled for testing
-    // const limitReached = await checkDailyLimit();
-    // if (limitReached) {
-    //   toast({
-    //     title: "Daily limit reached",
-    //     description: "You can generate up to 2 videos per day. Try again tomorrow!",
-    //     variant: "destructive",
-    //   });
-    //   return;
-    // }
+    // Check daily limit
+    const limitReached = await checkDailyLimit();
+    if (limitReached) {
+      toast({
+        title: "Daily limit reached",
+        description: "You can generate up to 2 videos per day. Try again tomorrow!",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsGenerating(true);
     
@@ -210,30 +210,31 @@ const GeneratePage = () => {
       {/* Background grid pattern */}
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
       
-      {/* Header */}
-      <header className="relative z-10 p-6 border-b border-border/20 backdrop-blur-sm">
+      {/* Header - responsive */}
+      <header className="relative z-10 p-4 sm:p-6 border-b border-border/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Home
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground text-xs sm:text-sm">
+              <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Back to Home</span>
+              <span className="sm:hidden">Back</span>
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Manimate Studio
           </h1>
-          <div className="w-20" /> {/* Spacer for center alignment */}
+          <div className="w-16 sm:w-20" /> {/* Spacer for center alignment */}
         </div>
       </header>
 
-      {/* Main content */}
-      <div className="relative z-10 p-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 min-h-[calc(100vh-120px)]">
+      {/* Main content - responsive */}
+      <div className="relative z-10 p-4 sm:p-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 min-h-[calc(100vh-120px)]">
           {/* Left side - Input */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <Card className="bg-card/80 backdrop-blur-xl border-border/50">
-              <CardHeader>
-                <CardTitle className="text-xl font-semibold">
+              <CardHeader className="pb-4 sm:pb-6">
+                <CardTitle className="text-lg sm:text-xl font-semibold">
                   Describe Your Animation
                 </CardTitle>
               </CardHeader>
@@ -242,38 +243,40 @@ const GeneratePage = () => {
                   placeholder="Describe your animation idea... For example: 'A 3D visualization of the Pythagorean theorem with animated triangles and mathematical equations'"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-[200px] resize-none"
+                  className="min-h-[150px] sm:min-h-[200px] resize-none text-sm sm:text-base"
                 />
                 <Button
                   onClick={handleGenerate}
                   variant="glow"
                   size="xl"
-                  className="w-full"
+                  className="w-full text-sm sm:text-base"
                   disabled={isGenerating}
                 >
                   {isGenerating ? (
                     <>
-                      <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                      Generating Animation...
+                      <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 mr-2 animate-spin" />
+                      <span className="hidden sm:inline">Generating Animation...</span>
+                      <span className="sm:hidden">Generating...</span>
                     </>
                   ) : (
                     <>
-                      <Play className="h-5 w-5 mr-2" />
-                      Generate Animation
+                      <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                      <span className="hidden sm:inline">Generate Animation</span>
+                      <span className="sm:hidden">Generate</span>
                     </>
                   )}
                 </Button>
               </CardContent>
             </Card>
 
-            {/* Example prompts */}
+            {/* Example prompts - responsive */}
             <Card className="bg-card/60 backdrop-blur-xl border-border/30">
-              <CardHeader>
-                <CardTitle className="text-lg font-medium text-muted-foreground">
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-base sm:text-lg font-medium text-muted-foreground">
                   Example Prompts
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-2 sm:space-y-3">
                 {[
                   "A visualization of how neural networks learn",
                   "The mathematical beauty of the Fibonacci sequence",
@@ -284,7 +287,7 @@ const GeneratePage = () => {
                     key={index}
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start text-left h-auto py-3 px-4"
+                    className="w-full justify-start text-left h-auto py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm"
                     onClick={() => setPrompt(example)}
                   >
                     "{example}"
@@ -294,16 +297,16 @@ const GeneratePage = () => {
             </Card>
           </div>
 
-          {/* Right side - Video output */}
-          <div className="space-y-6">
+          {/* Right side - Video output - responsive */}
+          <div className="space-y-4 sm:space-y-6">
             <Card className="bg-card/80 backdrop-blur-xl border-border/50 h-full">
-              <CardHeader>
-                <CardTitle className="text-xl font-semibold">
+              <CardHeader className="pb-4 sm:pb-6">
+                <CardTitle className="text-lg sm:text-xl font-semibold">
                   Generated Animation
                 </CardTitle>
               </CardHeader>
               <CardContent className="h-full">
-                <div className="rounded-lg bg-muted/50 border border-border/30 min-h-[50vh] md:h-[400px] flex items-center justify-center relative overflow-hidden">
+                <div className="rounded-lg bg-muted/50 border border-border/30 min-h-[300px] sm:min-h-[400px] md:h-[400px] lg:h-[500px] flex items-center justify-center relative overflow-hidden">
                   {isGenerating ? (
                     <div className="text-center space-y-4">
                       <div className="relative w-16 h-16 mx-auto">
