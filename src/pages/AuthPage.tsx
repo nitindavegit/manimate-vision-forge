@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,11 +8,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  
+  const cardAnimation = useScrollAnimation({ threshold: 0.3 });
+  
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,10 +159,10 @@ const AuthPage = () => {
       <div className="absolute inset-0 bg-grid-pattern opacity-30" />
       
       {/* Back button */}
-      <div className="absolute top-6 left-6 z-10">
+      <div className={`absolute top-6 left-6 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         <Link to="/">
-          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="h-4 w-4 mr-2" />
+          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hover:scale-105 transition-all duration-300">
+            <ArrowLeft className="h-4 w-4 mr-2 transition-transform hover:-translate-x-1" />
             Back to Home
           </Button>
         </Link>
@@ -162,12 +170,17 @@ const AuthPage = () => {
 
       {/* Auth container */}
       <div className="flex min-h-screen items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-card/80 backdrop-blur-xl border-border/50">
+        <Card 
+          ref={cardAnimation.ref}
+          className={`w-full max-w-md bg-card/80 backdrop-blur-xl border-border/50 transition-all duration-1000 hover:bg-card/90 hover:scale-[1.02] hover:shadow-2xl ${
+            cardAnimation.isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
+          }`}
+        >
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent animate-fade-in">
               Welcome to Manimate
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
               Sign in to start generating amazing animations
             </CardDescription>
           </CardHeader>
@@ -204,7 +217,7 @@ const AuthPage = () => {
                     type="submit" 
                     variant="glow" 
                     size="lg" 
-                    className="w-full"
+                    className="w-full transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
                     disabled={isLoading}
                   >
                     {isLoading ? "Signing in..." : "Sign In"}
@@ -225,7 +238,7 @@ const AuthPage = () => {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="w-full"
+                  className="w-full hover:scale-105 transition-all duration-300 hover:shadow-md"
                   onClick={() => handleGoogleSignIn()}
                   disabled={isLoading}
                 >
@@ -279,7 +292,7 @@ const AuthPage = () => {
                     type="submit" 
                     variant="glow" 
                     size="lg" 
-                    className="w-full"
+                    className="w-full transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
                     disabled={isLoading}
                   >
                     {isLoading ? "Creating account..." : "Create Account"}
@@ -300,7 +313,7 @@ const AuthPage = () => {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="w-full"
+                  className="w-full hover:scale-105 transition-all duration-300 hover:shadow-md"
                   onClick={() => handleGoogleSignIn()}
                   disabled={isLoading}
                 >

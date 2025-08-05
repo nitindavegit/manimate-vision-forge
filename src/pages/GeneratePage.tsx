@@ -7,6 +7,7 @@ import { ArrowLeft, Loader2, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const GeneratePage = () => {
   const [prompt, setPrompt] = useState("");
@@ -18,6 +19,11 @@ const GeneratePage = () => {
   const [videoLoading, setVideoLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  
+  // Animation hooks
+  const inputAnimation = useScrollAnimation({ threshold: 0.3 });
+  const outputAnimation = useScrollAnimation({ threshold: 0.3 });
+  const examplesAnimation = useScrollAnimation({ threshold: 0.5 });
 
   // Check authentication on component mount
   useEffect(() => {
@@ -232,9 +238,14 @@ const GeneratePage = () => {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 min-h-[calc(100vh-120px)]">
           {/* Left side - Input */}
           <div className="space-y-4 sm:space-y-6">
-            <Card className="bg-card/80 backdrop-blur-xl border-border/50">
+            <Card 
+              ref={inputAnimation.ref}
+              className={`bg-card/80 backdrop-blur-xl border-border/50 transition-all duration-1000 hover:bg-card/90 hover:scale-[1.02] hover:shadow-xl ${
+                inputAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+            >
               <CardHeader className="pb-4 sm:pb-6">
-                <CardTitle className="text-lg sm:text-xl font-semibold">
+                <CardTitle className="text-lg sm:text-xl font-semibold animate-fade-in">
                   Describe Your Animation
                 </CardTitle>
               </CardHeader>
@@ -243,13 +254,13 @@ const GeneratePage = () => {
                   placeholder="Describe your animation idea... For example: 'A 3D visualization of the Pythagorean theorem with animated triangles and mathematical equations'"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-[150px] sm:min-h-[200px] resize-none text-sm sm:text-base"
+                  className="min-h-[150px] sm:min-h-[200px] resize-none text-sm sm:text-base transition-all duration-300 focus:scale-[1.02] hover:shadow-md"
                 />
                 <Button
                   onClick={handleGenerate}
                   variant="glow"
                   size="xl"
-                  className="w-full text-sm sm:text-base"
+                  className="w-full text-sm sm:text-base transform hover:scale-105 transition-all duration-300 hover:shadow-2xl animate-pulse hover:animate-none"
                   disabled={isGenerating}
                 >
                   {isGenerating ? (
@@ -260,7 +271,7 @@ const GeneratePage = () => {
                     </>
                   ) : (
                     <>
-                      <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                      <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2 transition-transform hover:scale-110" />
                       <span className="hidden sm:inline">Generate Animation</span>
                       <span className="sm:hidden">Generate</span>
                     </>
@@ -270,9 +281,14 @@ const GeneratePage = () => {
             </Card>
 
             {/* Example prompts - responsive */}
-            <Card className="bg-card/60 backdrop-blur-xl border-border/30">
+            <Card 
+              ref={examplesAnimation.ref}
+              className={`bg-card/60 backdrop-blur-xl border-border/30 transition-all duration-1000 hover:bg-card/70 hover:scale-[1.02] ${
+                examplesAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+            >
               <CardHeader className="pb-3 sm:pb-6">
-                <CardTitle className="text-base sm:text-lg font-medium text-muted-foreground">
+                <CardTitle className="text-base sm:text-lg font-medium text-muted-foreground animate-fade-in">
                   Example Prompts
                 </CardTitle>
               </CardHeader>
@@ -287,7 +303,8 @@ const GeneratePage = () => {
                     key={index}
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start text-left h-auto py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm"
+                    className="w-full justify-start text-left h-auto py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm hover:bg-primary/10 hover:scale-105 transition-all duration-300 hover:shadow-md animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                     onClick={() => setPrompt(example)}
                   >
                     "{example}"
@@ -299,9 +316,14 @@ const GeneratePage = () => {
 
           {/* Right side - Video output - responsive */}
           <div className="space-y-4 sm:space-y-6">
-            <Card className="bg-card/80 backdrop-blur-xl border-border/50 h-full">
+            <Card 
+              ref={outputAnimation.ref}
+              className={`bg-card/80 backdrop-blur-xl border-border/50 h-full transition-all duration-1000 hover:bg-card/90 hover:scale-[1.01] hover:shadow-xl ${
+                outputAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+            >
               <CardHeader className="pb-4 sm:pb-6">
-                <CardTitle className="text-lg sm:text-xl font-semibold">
+                <CardTitle className="text-lg sm:text-xl font-semibold animate-fade-in">
                   Generated Animation
                 </CardTitle>
               </CardHeader>
