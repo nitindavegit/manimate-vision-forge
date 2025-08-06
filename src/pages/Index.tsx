@@ -52,9 +52,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-card relative overflow-hidden">
-      {/* Modern background with subtle grid */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5" style={{ backgroundSize: '60px 60px' }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      {/* Animated background layers */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-5 animate-[pulse_8s_ease-in-out_infinite]" style={{ backgroundSize: '60px 60px' }} />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-[fade-in_2s_ease-out]" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/2 to-transparent animate-[fade-in_3s_ease-out_1s]" />
+      
+      {/* Floating orbs for ambiance */}
+      <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/10 rounded-full blur-xl animate-[pulse_6s_ease-in-out_infinite] opacity-60" />
+      <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-accent/10 rounded-full blur-xl animate-[pulse_8s_ease-in-out_infinite_2s] opacity-40" />
       
       {/* Logo in top left corner - responsive */}
       <div className={`absolute top-4 left-4 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
@@ -98,12 +103,12 @@ const Index = () => {
               heroAnimation.isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
             }`}
           >
-            <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-card/70 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
+            <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-card/70 transition-all duration-700 hover:scale-[1.02] hover:shadow-2xl group">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-8xl font-bold leading-tight tracking-tight">
-                <span className="text-foreground animate-fade-in">Generate Video Using</span>
+                <span className="text-foreground animate-fade-in bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Generate Video Using</span>
                 <br />
-                <span className="text-foreground animate-fade-in" style={{ animationDelay: '0.2s' }}>Manim. </span>
-                <span className="text-primary font-light italic animate-fade-in" style={{ animationDelay: '0.4s' }}>With AI.</span>
+                <span className="text-foreground animate-fade-in bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500" style={{ animationDelay: '0.2s' }}>Manim. </span>
+                <span className="text-primary font-light italic animate-fade-in bg-gradient-to-r from-primary to-accent bg-clip-text animate-[fade-in_0.6s_ease-out_0.4s_both,pulse_3s_ease-in-out_infinite_2s]" style={{ animationDelay: '0.4s' }}>With AI.</span>
               </h1>
             </Card>
           </div>
@@ -116,7 +121,7 @@ const Index = () => {
                   <Button
                     variant="default" 
                     size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transform hover:scale-105 transition-all duration-300 hover:shadow-xl animate-pulse hover:animate-none"
+                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transform hover:scale-105 transition-all duration-300 hover:shadow-xl animate-[pulse_4s_ease-in-out_infinite] hover:animate-none"
                   >
                     Get Started
                     <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 transition-transform hover:translate-x-1" />
@@ -207,9 +212,9 @@ const Index = () => {
             
             <div ref={benefitsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               {benefits.map((benefit, index) => (
-                <Card 
+                 <Card 
                   key={index} 
-                  className={`bg-card/80 backdrop-blur-xl border-border/20 p-4 sm:p-6 text-center hover:bg-card/90 transition-all duration-500 hover:scale-105 transform hover:shadow-xl hover:rotate-1 ${
+                  className={`bg-card/80 backdrop-blur-xl border-border/20 p-4 sm:p-6 text-center hover:bg-card/90 transition-all duration-700 hover:scale-105 transform hover:shadow-xl hover:rotate-1 group relative overflow-hidden ${
                     visibleItems.has(index) ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
                   }`}
                   style={{ 
@@ -217,12 +222,15 @@ const Index = () => {
                     animationDelay: `${index * 200}ms`
                   }}
                 >
-                  <CardContent className="p-0 space-y-3 sm:space-y-4">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto border border-primary/20 hover:bg-primary/20 transition-all duration-300 hover:scale-110">
-                      <benefit.icon className="h-6 w-6 sm:h-8 sm:w-8 text-primary transition-all duration-300 hover:scale-110" />
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/3 to-transparent animate-[pulse_4s_ease-in-out_infinite] opacity-60" />
+                  <CardContent className="relative p-0 space-y-3 sm:space-y-4 z-10">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto border border-primary/20 hover:bg-primary/20 transition-all duration-500 hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
+                      <benefit.icon className="h-6 w-6 sm:h-8 sm:w-8 text-primary transition-all duration-500 hover:scale-110 group-hover:rotate-12" />
                     </div>
-                    <h4 className="text-base sm:text-lg md:text-xl font-semibold hover:text-primary transition-colors duration-300">{benefit.title}</h4>
-                    <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm md:text-base">{benefit.description}</p>
+                    <h4 className="text-base sm:text-lg md:text-xl font-semibold hover:text-primary transition-colors duration-500 group-hover:scale-105">{benefit.title}</h4>
+                    <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm md:text-base group-hover:text-foreground/80 transition-colors duration-500">{benefit.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -246,7 +254,7 @@ const Index = () => {
                   <Button 
                     variant="default" 
                     size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transform hover:scale-110 transition-all duration-300 hover:shadow-xl hover:rotate-2 animate-pulse hover:animate-none"
+                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transform hover:scale-110 transition-all duration-300 hover:shadow-xl hover:rotate-2 animate-[pulse_4s_ease-in-out_infinite] hover:animate-none"
                   >
                     Get Started
                     <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 transition-transform hover:translate-x-2" />
