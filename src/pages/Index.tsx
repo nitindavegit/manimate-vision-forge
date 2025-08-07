@@ -4,18 +4,20 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Play, ArrowRight, Circle, Zap, Brain, Video, Sparkles } from "lucide-react";
-import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
+import { useGSAPFadeIn, useGSAPStagger, useGSAPHero, useGSAPButton, useGSAPTextReveal } from "@/hooks/useGSAPAnimations";
 
 const Index = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
-  // Scroll animation hooks
-  const heroAnimation = useScrollAnimation({ threshold: 0.3 });
-  const sectionAnimation = useScrollAnimation({ threshold: 0.2 });
-  const benefitsAnimation = useScrollAnimation({ threshold: 0.1 });
-  const ctaAnimation = useScrollAnimation({ threshold: 0.2 });
+  // GSAP animation hooks
+  const heroRef = useGSAPHero();
+  const sectionRef = useGSAPFadeIn(0.2);
+  const benefitsRef = useGSAPStagger(0.15);
+  const ctaRef = useGSAPFadeIn(0.4);
+  const titleRef = useGSAPTextReveal();
+  const buttonRef = useGSAPButton();
   
   const benefits = [
     {
@@ -35,7 +37,7 @@ const Index = () => {
     }
   ];
   
-  const { ref: benefitsRef, visibleItems } = useStaggeredAnimation(benefits, 200);
+  const benefitsStaggerRef = useGSAPStagger(0.2);
 
   useEffect(() => {
     setIsVisible(true);
@@ -98,17 +100,15 @@ const Index = () => {
           
           {/* Hero heading - responsive and animated */}
           <div 
-            ref={heroAnimation.ref}
-            className={`space-y-6 sm:space-y-8 transition-all duration-1000 delay-300 ${
-              heroAnimation.isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-            }`}
+            ref={heroRef}
+            className="space-y-6 sm:space-y-8"
           >
             <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-card/70 transition-all duration-700 hover:scale-[1.02] hover:shadow-2xl group">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-8xl font-bold leading-tight tracking-tight">
-                <span className="text-foreground animate-fade-in bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Generate Video Using</span>
+              <h1 ref={titleRef} className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-8xl font-bold leading-tight tracking-tight">
+                <span className="text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Generate Video Using</span>
                 <br />
-                <span className="text-foreground animate-fade-in bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500" style={{ animationDelay: '0.2s' }}>Manim. </span>
-                <span className="text-primary font-light italic animate-fade-in bg-gradient-to-r from-primary to-accent bg-clip-text animate-[fade-in_0.6s_ease-out_0.4s_both,pulse_3s_ease-in-out_infinite_2s]" style={{ animationDelay: '0.4s' }}>With AI.</span>
+                <span className="text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Manim. </span>
+                <span className="text-primary font-light italic bg-gradient-to-r from-primary to-accent bg-clip-text">With AI.</span>
               </h1>
             </Card>
           </div>
@@ -119,9 +119,10 @@ const Index = () => {
               <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 hover:bg-card/70 transition-all duration-500">
                 <Link to="/auth">
                   <Button
+                    ref={buttonRef}
                     variant="default" 
                     size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-accent rounded-lg transform hover:scale-105 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30"
+                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-accent rounded-lg transition-all duration-300"
                   >
                     Get Started
                     <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 transition-transform hover:translate-x-1" />
@@ -177,10 +178,8 @@ const Index = () => {
           
           {/* AI POWERED ANIMATION section */}
           <div 
-            ref={sectionAnimation.ref}
-            className={`text-center transition-all duration-1000 ${
-              sectionAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            ref={sectionRef}
+            className="text-center"
           >
             <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-card/70 transition-all duration-500 hover:scale-[1.02]">
               <p className="text-xs sm:text-sm font-medium text-primary uppercase tracking-wider mb-4 sm:mb-6 animate-fade-in">
@@ -195,10 +194,8 @@ const Index = () => {
 
           {/* Benefits section */}
           <div 
-            ref={benefitsAnimation.ref}
-            className={`transition-all duration-1000 delay-200 ${
-              benefitsAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            ref={benefitsRef}
+            className="space-y-6 sm:space-y-8 md:space-y-12"
           >
             <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 mb-6 sm:mb-8 md:mb-12 hover:bg-card/70 transition-all duration-500">
               <p className="text-xs sm:text-sm font-medium text-primary uppercase tracking-wider mb-4 sm:mb-6 text-center animate-fade-in">
@@ -210,17 +207,11 @@ const Index = () => {
               </p>
             </Card>
             
-            <div ref={benefitsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+            <div ref={benefitsStaggerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               {benefits.map((benefit, index) => (
                  <Card 
                   key={index} 
-                  className={`bg-card/80 backdrop-blur-xl border-border/20 p-4 sm:p-6 text-center hover:bg-card/90 transition-all duration-700 hover:scale-105 transform hover:shadow-xl hover:rotate-1 group relative overflow-hidden ${
-                    visibleItems.has(index) ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-                  }`}
-                  style={{ 
-                    transitionDelay: `${index * 200}ms`,
-                    animationDelay: `${index * 200}ms`
-                  }}
+                  className="bg-card/80 backdrop-blur-xl border-border/20 p-4 sm:p-6 text-center hover:bg-card/90 transition-all duration-700 hover:scale-105 transform hover:shadow-xl hover:rotate-1 group relative overflow-hidden"
                 >
                   {/* Animated background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -239,10 +230,8 @@ const Index = () => {
 
           {/* Final CTA Section */}
           <div 
-            ref={ctaAnimation.ref}
-            className={`transition-all duration-1000 delay-400 ${
-              ctaAnimation.isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-            }`}
+            ref={ctaRef}
+            className="space-y-6 sm:space-y-8"
           >
             <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 backdrop-blur-xl border-border/20 p-6 sm:p-8 md:p-12 lg:p-16 text-center hover:shadow-2xl transition-all duration-500 hover:scale-[1.02]">
               <div className="space-y-6 sm:space-y-8">
