@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Play, ArrowRight, Circle, Zap, Brain, Video, Sparkles } from "lucide-react";
-import { useGSAPFadeIn, useGSAPStagger, useGSAPHero, useGSAPButton, useGSAPTextReveal } from "@/hooks/useGSAPAnimations";
+import { useGSAPFadeIn, useGSAPStagger, useGSAPHero, useGSAPButton, useGSAPTextReveal, useGSAPMorphing, useGSAPParallax } from "@/hooks/useGSAPAnimations";
 
 const Index = () => {
   const [showPrompt, setShowPrompt] = useState(false);
@@ -18,6 +18,9 @@ const Index = () => {
   const ctaRef = useGSAPFadeIn(0.4);
   const titleRef = useGSAPTextReveal();
   const buttonRef = useGSAPButton();
+  const morphingRef1 = useGSAPMorphing();
+  const morphingRef2 = useGSAPMorphing();
+  const parallaxRef = useGSAPParallax(0.3);
   
   const benefits = [
     {
@@ -59,9 +62,10 @@ const Index = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-[fade-in_2s_ease-out]" />
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/2 to-transparent animate-[fade-in_3s_ease-out_1s]" />
       
-      {/* Floating orbs for ambiance */}
-      <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/10 rounded-full blur-xl animate-[pulse_6s_ease-in-out_infinite] opacity-60" />
-      <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-accent/10 rounded-full blur-xl animate-[pulse_8s_ease-in-out_infinite_2s] opacity-40" />
+      {/* Floating orbs for ambiance with morphing animation */}
+      <div ref={morphingRef1} className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/10 rounded-full blur-xl opacity-60" />
+      <div ref={morphingRef2} className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-accent/10 rounded-full blur-xl opacity-40" />
+      <div ref={parallaxRef} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full blur-3xl opacity-30" />
       
       {/* Logo in top left corner - responsive */}
       <div className={`absolute top-4 left-4 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
@@ -105,7 +109,7 @@ const Index = () => {
           >
             <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-card/70 transition-all duration-700 hover:scale-[1.02] hover:shadow-2xl group">
               <h1 ref={titleRef} className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-8xl font-bold leading-tight tracking-tight">
-                <span className="text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Generate Video Using</span>
+                <span className="text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Generate Video Using </span>
                 <br />
                 <span className="text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Manim. </span>
                 <span className="text-primary font-light italic bg-gradient-to-r from-primary to-accent bg-clip-text">With AI.</span>
@@ -141,10 +145,11 @@ const Index = () => {
                   />
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                     <Button
+                      ref={buttonRef}
                       onClick={handleTryNow}
                       variant="default"
                       size="lg"
-                      className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 text-sm sm:text-base transform hover:scale-105 transition-all duration-300"
+                      className="flex-1 bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-accent text-sm sm:text-base transition-all duration-300"
                       disabled={!prompt.trim()}
                     >
                       <Play className="h-4 w-4 mr-2" />

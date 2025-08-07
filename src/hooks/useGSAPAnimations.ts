@@ -116,9 +116,10 @@ export const useGSAPButton = () => {
       const handleMouseEnter = () => {
         gsap.to(button, {
           scale: 1.05,
-          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)",
-          duration: 0.3,
-          ease: "power2.out"
+          boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
+          rotationX: -5,
+          duration: 0.4,
+          ease: "power3.out"
         });
       };
 
@@ -126,8 +127,9 @@ export const useGSAPButton = () => {
         gsap.to(button, {
           scale: 1,
           boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)",
-          duration: 0.3,
-          ease: "power2.out"
+          rotationX: 0,
+          duration: 0.4,
+          ease: "power3.out"
         });
       };
 
@@ -140,6 +142,53 @@ export const useGSAPButton = () => {
       };
     }
   }, []);
+
+  return ref;
+};
+
+export const useGSAPMorphing = () => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      // Continuous morphing animation for background elements
+      gsap.to(ref.current, {
+        scale: 1.1,
+        rotation: 5,
+        duration: 8,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut"
+      });
+    }
+  }, []);
+
+  return ref;
+};
+
+export const useGSAPParallax = (speed = 0.5) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      const element = ref.current;
+      
+      const handleScroll = () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -speed;
+        
+        gsap.set(element, {
+          y: rate
+        });
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [speed]);
 
   return ref;
 };
