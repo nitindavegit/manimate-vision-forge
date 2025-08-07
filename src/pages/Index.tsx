@@ -121,7 +121,7 @@ const Index = () => {
                   <Button
                     variant="default" 
                     size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transform hover:scale-105 transition-all duration-300 hover:shadow-xl animate-[pulse_4s_ease-in-out_infinite] hover:animate-none"
+                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-accent rounded-lg transform hover:scale-105 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30"
                   >
                     Get Started
                     <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 transition-transform hover:translate-x-1" />
@@ -254,7 +254,7 @@ const Index = () => {
                   <Button 
                     variant="default" 
                     size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transform hover:scale-110 transition-all duration-300 hover:shadow-xl hover:rotate-2 animate-[pulse_4s_ease-in-out_infinite] hover:animate-none"
+                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-accent hover:to-primary rounded-lg transform hover:scale-110 transition-all duration-500 hover:shadow-xl hover:shadow-accent/30 hover:rotate-2"
                   >
                     Get Started
                     <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 transition-transform hover:translate-x-2" />
