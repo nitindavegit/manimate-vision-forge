@@ -6,9 +6,6 @@
   **Transform your ideas into stunning educational videos with AI**
   
   <p>
-    <a href="https://manimate-vision-forge.lovable.app/">
-      <img src="https://img.shields.io/badge/🚀_Live_Demo-Visit_Now-ff6b6b?style=for-the-badge" alt="Live Demo">
-    </a>
     <a href="#getting-started">
       <img src="https://img.shields.io/badge/📖_Quick_Start-Get_Started-4ecdc4?style=for-the-badge" alt="Quick Start">
     </a>
@@ -23,6 +20,30 @@
     <img src="https://img.shields.io/badge/Tailwind_CSS-Latest-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind">
     <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
   </p>
+</div>
+
+---
+
+## 🌟 Live Demo
+
+<div align="center">
+  
+  ### 🚀 Experience Manimate in Action
+  
+  <p><strong>See the magic happen in real-time!</strong></p>
+  
+  <a href="https://manimate-vision-forge.lovable.app/" target="_blank">
+    <img src="https://img.shields.io/badge/🎬_LIVE_DEMO-manimate--vision--forge.lovable.app-ff6b6b?style=for-the-badge&logoColor=white" alt="Live Demo" height="50">
+  </a>
+  
+  <br><br>
+  
+  <p>
+    ✅ <strong>No installation required</strong> • Works in any modern browser<br>
+    ✅ <strong>Try it instantly</strong> • Create your first animation in seconds<br>
+    ✅ <strong>Free to explore</strong> • Experience the full power of AI-driven animation
+  </p>
+  
 </div>
 
 ---
@@ -318,18 +339,6 @@ and destructive interference patterns"
   <img src="https://img.shields.io/badge/Glassmorphism-Design-a78bfa?style=for-the-badge" alt="Glassmorphism">
 </p>
 
-</div>
-
----
-
-## 🌍 Live Demo
-
-<div align="center">
-  <a href="https://manimate-vision-forge.lovable.app/" target="_blank">
-    <img src="https://img.shields.io/badge/🚀_EXPERIENCE_MANIMATE_LIVE-Visit_Demo-ff6b6b?style=for-the-badge&logoColor=white" alt="Live Demo" height="60">
-  </a>
-  
-  <p><strong>No installation required • Works in any browser • Try it now!</strong></p>
 </div>
 
 ---
