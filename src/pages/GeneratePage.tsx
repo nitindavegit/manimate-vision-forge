@@ -260,7 +260,7 @@ const GeneratePage = () => {
                   onClick={handleGenerate}
                   variant="glow"
                   size="xl"
-                  className="w-full text-sm sm:text-base transform hover:scale-105 transition-all duration-300 hover:shadow-2xl animate-pulse hover:animate-none"
+                  className="w-full text-sm sm:text-base transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 hover:translate-y-[-2px] hover:bg-gradient-to-r hover:from-primary hover:to-accent group relative overflow-hidden"
                   disabled={isGenerating}
                 >
                   {isGenerating ? (
