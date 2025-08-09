@@ -3,7 +3,10 @@
 <div align="center">
   <img src="public/lovable-uploads/b5ec7487-efae-495b-b279-ffc4365662e9.png" alt="Manimate Logo" width="150" height="150">
   
-  **Transform your ideas into stunning educational videos with AI**
+  <h1>🎨 AI-Powered Video Generation Platform</h1>
+  <p><strong>Transform your ideas into stunning educational videos with AI</strong></p>
+  
+  <p><em>🎓 Mathematics • 🔬 Science • 💻 Technology • 📊 Data Visualization • 🧠 Machine Learning</em></p>
   
   <p>
     <a href="#getting-started">
@@ -50,9 +53,23 @@
 
 ## ✨ What is Manimate?
 
-> **Imagine describing a complex mathematical concept in plain English and watching it come to life as a professional educational video in seconds.**
+**Manimate** is a revolutionary AI-powered platform that transforms your ideas into professional-quality educational videos in seconds. Simply describe your concept in plain English, and our intelligent system generates stunning Manim-powered animations that bring complex topics to life.
 
-Manimate is a revolutionary AI-powered platform that bridges the gap between ideas and visual storytelling. Using the power of **Manim** (Mathematical Animation Engine) and cutting-edge artificial intelligence, we make professional-quality educational animations accessible to everyone—from students to professors, from content creators to researchers.
+### 🎯 Perfect For:
+• **Educators** creating engaging lesson content  
+• **Students** visualizing difficult concepts  
+• **Content Creators** producing educational videos  
+• **Researchers** presenting complex data  
+• **Developers** explaining algorithms and systems  
+
+### 🚀 Key Features at a Glance:
+✅ **Zero Learning Curve** - No animation or coding skills required  
+✅ **Lightning Fast** - Professional videos in 30-60 seconds  
+✅ **AI-Powered** - Advanced natural language processing  
+✅ **Manim Engine** - Industry-standard mathematical animations  
+✅ **Secure & Reliable** - Built with enterprise-grade infrastructure  
+
+> **From idea to video in seconds - Experience the future of educational content creation**
 
 ### 🎯 The Magic Behind Manimate
 
@@ -84,25 +101,27 @@ No animation experience? No coding skills? No problem. If you can describe it, M
 ## 🌟 Why Choose Manimate?
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center" width="33%">
-        <img src="https://via.placeholder.com/80x80/4ecdc4/white?text=🎨" alt="Professional Quality">
-        <h3>Professional Quality</h3>
-        <p>Manim-powered animations that rival expensive production studios</p>
-      </td>
-      <td align="center" width="33%">
-        <img src="https://via.placeholder.com/80x80/ff6b6b/white?text=🔒" alt="Secure & Reliable">
-        <h3>Secure & Reliable</h3>
-        <p>Built with Supabase for enterprise-grade security and performance</p>
-      </td>
-      <td align="center" width="33%">
-        <img src="https://via.placeholder.com/80x80/45b7d1/white?text=📱" alt="Responsive Design">
-        <h3>Universal Access</h3>
-        <p>Works seamlessly across all devices and screen sizes</p>
-      </td>
-    </tr>
-  </table>
+
+### 🎨 **Professional Quality**
+**Manim-powered animations that rival expensive production studios**  
+*✨ Hollywood-grade visuals without the Hollywood budget*
+
+### 🔒 **Secure & Reliable**
+**Built with Supabase for enterprise-grade security and performance**  
+*🛡️ Your data is protected with bank-level security*
+
+### 📱 **Universal Access**
+**Works seamlessly across all devices and screen sizes**  
+*💻 Desktop, tablet, mobile - create on the go!*
+
+---
+
+### 🚀 Additional Benefits
+
+| ⚡ **Lightning Speed** | 🧠 **AI Intelligence** | 📚 **Educational Focus** | 💰 **Cost Effective** |
+|:---:|:---:|:---:|:---:|
+| **30-60 seconds**<br>From idea to video | **Natural Language**<br>Just describe your vision | **STEM Optimized**<br>Perfect for learning content | **Fraction of Cost**<br>vs traditional animation |
+
 </div>
 
 ---
@@ -183,8 +202,8 @@ node --version  # Should be 18.0.0 or higher
 
 ```bash
 # 1. Clone the magic ✨
-git clone https://github.com/your-username/manimate.git
-cd manimate
+git clone https://github.com/nitindavegit/manimate-vision-forge.git
+cd manimate-vision-forge
 
 # 2. Install dependencies 📦
 npm install
@@ -351,7 +370,7 @@ We believe in the power of community! Here's how you can contribute:
 
 | 🐛 Found a Bug? | 💡 Have an Idea? | 🎨 Want to Improve UI? | 📚 Love Documentation? |
 |:---:|:---:|:---:|:---:|
-| [Report Issues](https://github.com/nitindavegit/manimate/issues) | [Feature Requests](https://github.com/nitindavegit/manimate/issues) | [UI/UX Improvements](https://github.com/nitindavegit/manimate/pulls) | [Improve Docs](https://github.com/nitindavegit/manimate/pulls) |
+| [Report Issues](https://github.com/nitindavegit/manimate-vision-forge/issues) | [Feature Requests](https://github.com/nitindavegit/manimate-vision-forge/issues) | [UI/UX Improvements](https://github.com/nitindavegit/manimate-vision-forge/pulls) | [Improve Docs](https://github.com/nitindavegit/manimate-vision-forge/pulls) |
 
 </div>
 
@@ -360,7 +379,7 @@ We believe in the power of community! Here's how you can contribute:
 ```bash
 # 1. Fork the repository on GitHub
 # 2. Clone your fork
-git clone https://github.com/YOUR_USERNAME/manimate.git
+git clone https://github.com/YOUR_USERNAME/manimate-vision-forge.git
 
 # 3. Create a feature branch
 git checkout -b feature/amazing-new-feature
@@ -408,22 +427,19 @@ git push origin feature/amazing-new-feature
 ### We're Here to Help! 🤗
 
 <p>
-  <a href="mailto:support@manimate.com">
-    <img src="https://img.shields.io/badge/📧_Email-support@manimate.com-ea4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Support">
+  <a href="mailto:nitindave2111@gmail.com">
+    <img src="https://img.shields.io/badge/📧_Email-nitindave2111@gmail.com-ea4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Support">
   </a>
 </p>
 
 <p>
-  <a href="https://discord.gg/manimate">
-    <img src="https://img.shields.io/badge/💬_Discord-Join_Community-7289da?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
-  </a>
-  <a href="https://docs.manimate.com">
-    <img src="https://img.shields.io/badge/📚_Documentation-Read_Docs-4caf50?style=for-the-badge&logo=gitbook&logoColor=white" alt="Documentation">
+  <a href="https://x.com/NitinDave77">
+    <img src="https://img.shields.io/badge/🐦_Twitter-@NitinDave77-1da1f2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
   </a>
 </p>
 
 <p>
-  <a href="https://github.com/your-username/manimate/issues">
+  <a href="https://github.com/nitindavegit/manimate-vision-forge/issues">
     <img src="https://img.shields.io/badge/🐛_Issues-GitHub_Issues-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues">
   </a>
 </p>
@@ -452,30 +468,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 We're grateful to these amazing projects and communities:
 
-<table>
-<tr>
-<td align="center">
-  <img src="https://via.placeholder.com/60x60/ff6b35/white?text=M" alt="Manim">
-  <br><strong>Manim Community</strong>
-  <br><small>The incredible animation engine</small>
-</td>
-<td align="center">
-  <img src="https://via.placeholder.com/60x60/3ecf8e/white?text=S" alt="Supabase">
-  <br><strong>Supabase Team</strong>
-  <br><small>Powering our backend</small>
-</td>
-<td align="center">
-  <img src="https://via.placeholder.com/60x60/000000/white?text=UI" alt="shadcn">
-  <br><strong>shadcn/ui</strong>
-  <br><small>Beautiful components</small>
-</td>
-<td align="center">
-  <img src="https://via.placeholder.com/60x60/ff69b4/white?text=L" alt="Lovable">
-  <br><strong>Lovable Platform</strong>
-  <br><small>Seamless deployment</small>
-</td>
-</tr>
-</table>
+| 🎨 **Manim Community** | 🗄️ **Supabase Team** | 🎯 **shadcn/ui** | 🚀 **Lovable Platform** |
+|:---:|:---:|:---:|:---:|
+| The incredible animation engine | Powering our backend | Beautiful components | Seamless deployment |
 
 </div>
 
@@ -494,7 +489,7 @@ We're grateful to these amazing projects and communities:
   <p><em>✨ Transform your ideas into stunning visual stories ✨</em></p>
   
   <p>
-    <strong>Made with ❤️ by the Manimate Team</strong>
+    <strong>Made with ❤️ by <a href="https://github.com/nitindavegit">Nitin Dave</a></strong>
   </p>
   
   ---
