@@ -351,7 +351,7 @@ We believe in the power of community! Here's how you can contribute:
 
 | 🐛 Found a Bug? | 💡 Have an Idea? | 🎨 Want to Improve UI? | 📚 Love Documentation? |
 |:---:|:---:|:---:|:---:|
-| [Report Issues](https://github.com/your-username/manimate/issues) | [Feature Requests](https://github.com/your-username/manimate/issues) | [UI/UX Improvements](https://github.com/your-username/manimate/pulls) | [Improve Docs](https://github.com/your-username/manimate/pulls) |
+| [Report Issues](https://github.com/nitindavegit/manimate/issues) | [Feature Requests](https://github.com/nitindavegit/manimate/issues) | [UI/UX Improvements](https://github.com/nitindavegit/manimate/pulls) | [Improve Docs](https://github.com/nitindavegit/manimate/pulls) |
 
 </div>
 
