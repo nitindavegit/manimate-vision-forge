@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 interface PageHeaderProps {
   showAuth?: boolean;
@@ -21,6 +22,12 @@ export function PageHeader({
   className,
 }: PageHeaderProps) {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
 
   return (
     <header
@@ -43,7 +50,7 @@ export function PageHeader({
         ) : (
           <Link to="/" className="group flex items-center gap-3">
             <img
-              src="/manimate-logo.png"
+              src="/lovable-uploads/6236e1b9-2a7c-444d-95d5-b8b96e031c3b.png"
               alt="Manimate"
               className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-105 sm:h-11 sm:w-11"
             />
@@ -61,27 +68,41 @@ export function PageHeader({
       )}
 
       <div className="flex min-w-[120px] justify-end">
-        {showAuth && !loading && (
+        {!loading && (
           <div className="flex items-center gap-2">
             {user ? (
-              <Link to="/generate">
-                <Button variant="hero" size="sm">
-                  Go to Studio
-                </Button>
-              </Link>
-            ) : (
               <>
-                <Link to="/auth">
-                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                    Log in
-                  </Button>
-                </Link>
-                <Link to="/auth">
-                  <Button variant="hero" size="sm">
-                    Get Started
-                  </Button>
-                </Link>
+                {showAuth && (
+                  <Link to="/generate">
+                    <Button variant="hero" size="sm">
+                      Go to Studio
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Sign out
+                </Button>
               </>
+            ) : (
+              showAuth && (
+                <>
+                  <Link to="/auth">
+                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button variant="hero" size="sm">
+                      Get Started
+                    </Button>
+                  </Link>
+                </>
+              )
             )}
           </div>
         )}

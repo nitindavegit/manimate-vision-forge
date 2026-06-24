@@ -127,7 +127,7 @@ const AuthPage = () => {
           }`}
         >
           <CardHeader className="space-y-3 text-center">
-            <img src="/manimate-logo.png" alt="Manimate" className="mx-auto h-14 w-14 object-contain" />
+            <img src="/lovable-uploads/6236e1b9-2a7c-444d-95d5-b8b96e031c3b.png" alt="Manimate" className="mx-auto h-14 w-14 object-contain" />
             <CardTitle className="font-display text-2xl font-bold text-gradient">
               Welcome to Manimate
             </CardTitle>
