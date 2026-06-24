@@ -4,57 +4,38 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { PageBackground } from "@/components/layout/PageBackground";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  
   const cardAnimation = useScrollAnimation({ threshold: 0.3 });
-  
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) {
-        toast({
-          title: "Login failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        toast({ title: "Login failed", description: error.message, variant: "destructive" });
       } else {
-        toast({
-          title: "Welcome back!",
-          description: "You have been successfully logged in.",
-        });
+        toast({ title: "Welcome back!", description: "You have been successfully logged in." });
         navigate("/generate");
       }
-    } catch (error) {
-      toast({
-        title: "Login failed",
-        description: "An unexpected error occurred.",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: "Login failed", description: "An unexpected error occurred.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +44,7 @@ const AuthPage = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const email = formData.get("signup-email") as string;
     const password = formData.get("signup-password") as string;
@@ -71,11 +52,7 @@ const AuthPage = () => {
     const fullName = formData.get("name") as string;
 
     if (password !== confirmPassword) {
-      toast({
-        title: "Password mismatch",
-        description: "Passwords do not match.",
-        variant: "destructive",
-      });
+      toast({ title: "Password mismatch", description: "Passwords do not match.", variant: "destructive" });
       setIsLoading(false);
       return;
     }
@@ -86,14 +63,11 @@ const AuthPage = () => {
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/`,
-          data: {
-            full_name: fullName,
-          }
-        }
+          data: { full_name: fullName },
+        },
       });
 
       if (error) {
-        // Check if it's a duplicate email error
         if (error.message.includes("already registered") || error.message.includes("already exists")) {
           toast({
             title: "Email already registered",
@@ -101,25 +75,14 @@ const AuthPage = () => {
             variant: "destructive",
           });
         } else {
-          toast({
-            title: "Signup failed",
-            description: error.message,
-            variant: "destructive",
-          });
+          toast({ title: "Signup failed", description: error.message, variant: "destructive" });
         }
       } else {
-        toast({
-          title: "Account created!",
-          description: "Please check your email to verify your account.",
-        });
+        toast({ title: "Account created!", description: "Please check your email to verify your account." });
         navigate("/generate");
       }
-    } catch (error) {
-      toast({
-        title: "Signup failed",
-        description: "An unexpected error occurred.",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: "Signup failed", description: "An unexpected error occurred.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -129,194 +92,110 @@ const AuthPage = () => {
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/generate`
-        }
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/generate` },
       });
 
       if (error) {
-        toast({
-          title: "Google sign-in failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        toast({ title: "Google sign-in failed", description: error.message, variant: "destructive" });
       }
-    } catch (error) {
-      toast({
-        title: "Google sign-in failed",
-        description: "An unexpected error occurred.",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: "Google sign-in failed", description: "An unexpected error occurred.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-background relative overflow-hidden">
-      {/* Background grid pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-      
-      {/* Back button */}
-      <div className={`absolute top-6 left-6 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-        <Link to="/">
-          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hover:scale-105 transition-all duration-300">
-            <ArrowLeft className="h-4 w-4 mr-2 transition-transform hover:-translate-x-1" />
-            Back to Home
-          </Button>
-        </Link>
-      </div>
+    <div className="relative min-h-screen overflow-hidden">
+      <PageBackground intensity="default" />
+      <PageHeader showBack backLabel="Home" />
 
-      {/* Auth container */}
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <Card 
+      <div className="relative z-10 flex min-h-[calc(100vh-80px)] items-center justify-center p-4">
+        <Card
           ref={cardAnimation.ref}
-          className={`w-full max-w-md bg-card/80 backdrop-blur-xl border-border/50 transition-all duration-1000 hover:bg-card/90 hover:scale-[1.02] hover:shadow-2xl ${
-            cardAnimation.isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
+          className={`glass-card w-full max-w-md border-0 bg-transparent shadow-none transition-all duration-700 ${
+            cardAnimation.isVisible ? "translate-y-0 scale-100 opacity-100" : "translate-y-8 scale-95 opacity-0"
           }`}
         >
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent animate-fade-in">
+          <CardHeader className="space-y-3 text-center">
+            <img src="/manimate-logo.png" alt="Manimate" className="mx-auto h-14 w-14 object-contain" />
+            <CardTitle className="font-display text-2xl font-bold text-gradient">
               Welcome to Manimate
             </CardTitle>
-            <CardDescription className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              Sign in to start generating amazing animations
+            <CardDescription className="text-muted-foreground">
+              Sign in to start generating stunning animations
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-2 bg-secondary/50">
                 <TabsTrigger value="login">Login</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
               </TabsList>
-              
-              <TabsContent value="login" className="space-y-4 mt-6">
+
+              <TabsContent value="login" className="mt-6 space-y-4">
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      required
-                    />
+                    <Input id="email" name="email" type="email" placeholder="you@example.com" required className="border-white/10 bg-background/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
-                    <Input
-                      id="password"
-                      name="password"
-                      type="password"
-                      placeholder="••••••••"
-                      required
-                    />
+                    <Input id="password" name="password" type="password" placeholder="••••••••" required className="border-white/10 bg-background/50" />
                   </div>
-                  <Button 
-                    type="submit" 
-                    variant="glow" 
-                    size="lg" 
-                    className="w-full transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
-                    disabled={isLoading}
-                  >
+                  <Button type="submit" variant="hero" size="lg" className="w-full" disabled={isLoading}>
                     {isLoading ? "Signing in..." : "Sign In"}
                   </Button>
                 </form>
-                
-                <div className="relative">
+
+                <div className="relative py-2">
                   <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-border" />
+                    <span className="w-full border-t border-white/10" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">
-                      Or continue with
-                    </span>
+                    <span className="bg-card px-3 text-muted-foreground">Or continue with</span>
                   </div>
                 </div>
-                
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="w-full hover:scale-105 transition-all duration-300 hover:shadow-md"
-                  onClick={() => handleGoogleSignIn()}
-                  disabled={isLoading}
-                >
+
+                <Button variant="outline" size="lg" className="w-full border-white/10 bg-white/[0.03]" onClick={handleGoogleSignIn} disabled={isLoading}>
                   Continue with Google
                 </Button>
               </TabsContent>
-              
-              <TabsContent value="signup" className="space-y-4 mt-6">
+
+              <TabsContent value="signup" className="mt-6 space-y-4">
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      type="text"
-                      placeholder="John Doe"
-                      required
-                    />
+                    <Input id="name" name="name" type="text" placeholder="John Doe" required className="border-white/10 bg-background/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-email">Email</Label>
-                    <Input
-                      id="signup-email"
-                      name="signup-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      required
-                    />
+                    <Input id="signup-email" name="signup-email" type="email" placeholder="you@example.com" required className="border-white/10 bg-background/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-password">Password</Label>
-                    <Input
-                      id="signup-password"
-                      name="signup-password"
-                      type="password"
-                      placeholder="••••••••"
-                      required
-                    />
+                    <Input id="signup-password" name="signup-password" type="password" placeholder="••••••••" required className="border-white/10 bg-background/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="confirm-password">Confirm Password</Label>
-                    <Input
-                      id="confirm-password"
-                      name="confirm-password"
-                      type="password"
-                      placeholder="••••••••"
-                      required
-                    />
+                    <Input id="confirm-password" name="confirm-password" type="password" placeholder="••••••••" required className="border-white/10 bg-background/50" />
                   </div>
-                  <Button 
-                    type="submit" 
-                    variant="glow" 
-                    size="lg" 
-                    className="w-full transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
-                    disabled={isLoading}
-                  >
+                  <Button type="submit" variant="hero" size="lg" className="w-full" disabled={isLoading}>
                     {isLoading ? "Creating account..." : "Create Account"}
                   </Button>
                 </form>
-                
-                <div className="relative">
+
+                <div className="relative py-2">
                   <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-border" />
+                    <span className="w-full border-t border-white/10" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">
-                      Or continue with
-                    </span>
+                    <span className="bg-card px-3 text-muted-foreground">Or continue with</span>
                   </div>
                 </div>
-                
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="w-full hover:scale-105 transition-all duration-300 hover:shadow-md"
-                  onClick={() => handleGoogleSignIn()}
-                  disabled={isLoading}
-                >
+
+                <Button variant="outline" size="lg" className="w-full border-white/10 bg-white/[0.03]" onClick={handleGoogleSignIn} disabled={isLoading}>
                   Continue with Google
                 </Button>
               </TabsContent>

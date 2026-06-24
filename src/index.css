@@ -2,107 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 222 47% 3%;
-    --foreground: 0 0% 60%; /* #999999 in HSL */
+    --background: 228 32% 4%;
+    --foreground: 210 25% 92%;
 
-    --card: 225 25% 6%;
-    --card-foreground: 0 0% 60%; /* #999999 in HSL */
+    --card: 228 28% 7%;
+    --card-foreground: 210 25% 92%;
 
-    --popover: 225 25% 6%;
-    --popover-foreground: 0 0% 60%; /* #999999 in HSL */
+    --popover: 228 28% 7%;
+    --popover-foreground: 210 25% 92%;
 
-    --primary: 193 100% 50%;
-    --primary-foreground: 222 47% 3%;
+    --primary: 186 92% 52%;
+    --primary-foreground: 228 32% 4%;
 
-    --secondary: 240 9% 15%;
-    --secondary-foreground: 0 0% 60%; /* #999999 in HSL */
+    --secondary: 228 18% 12%;
+    --secondary-foreground: 210 20% 85%;
 
-    --muted: 240 9% 15%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 228 16% 14%;
+    --muted-foreground: 215 14% 58%;
 
-    --accent: 193 100% 50%;
-    --accent-foreground: 222 47% 3%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 240 9% 15%;
-    --input: 240 9% 15%;
-    --ring: 193 100% 50%;
-
-    --radius: 0.75rem;
-
-    /* Custom design tokens for Manimate */
-    --gradient-primary: linear-gradient(135deg, hsl(193 100% 50%) 0%, hsl(270 100% 60%) 100%);
-    --gradient-background: linear-gradient(180deg, hsl(222 47% 3%) 0%, hsl(225 25% 6%) 100%);
-    --glow-cyan: 0 0 20px hsl(193 100% 50% / 0.3);
-    --glow-purple: 0 0 20px hsl(270 100% 60% / 0.2);
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Subtle grid pattern */
-    --grid-pattern: radial-gradient(circle at 1px 1px, hsl(193 100% 50% / 0.1) 1px, transparent 0);
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 262 72% 62%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 72% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 228 16% 16%;
+    --input: 228 16% 14%;
+    --ring: 186 92% 52%;
+
+    --radius: 0.875rem;
+
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(186 92% 52%) 0%,
+      hsl(210 88% 58%) 45%,
+      hsl(262 72% 62%) 100%
+    );
+    --gradient-background: radial-gradient(
+        ellipse 80% 50% at 50% -20%,
+        hsl(186 92% 52% / 0.12),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 100% 100%,
+        hsl(262 72% 62% / 0.08),
+        transparent 60%
+      ),
+      linear-gradient(180deg, hsl(228 32% 4%) 0%, hsl(228 28% 6%) 100%);
+    --gradient-border: linear-gradient(
+      135deg,
+      hsl(186 92% 52% / 0.35),
+      hsl(262 72% 62% / 0.15)
+    );
+    --glow-cyan: 0 0 40px hsl(186 92% 52% / 0.25);
+    --glow-purple: 0 0 40px hsl(262 72% 62% / 0.2);
+    --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --grid-pattern: linear-gradient(hsl(186 92% 52% / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(186 92% 52% / 0.04) 1px, transparent 1px);
+    --grid-size: 64px;
+    --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 
@@ -111,7 +71,72 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    background: hsl(186 92% 52% / 0.25);
+    color: hsl(210 25% 98%);
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl border border-white/[0.06] bg-card/70 backdrop-blur-2xl;
+    box-shadow:
+      0 0 0 1px hsl(186 92% 52% / 0.04),
+      0 24px 48px -24px hsl(228 32% 2% / 0.8);
+  }
+
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--gradient-border);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-primary bg-clip-text text-transparent;
+  }
+
+  .text-gradient-hero {
+    background: linear-gradient(
+      135deg,
+      hsl(210 25% 98%) 0%,
+      hsl(210 25% 92%) 40%,
+      hsl(186 92% 62%) 70%,
+      hsl(262 72% 72%) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .section-label {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary;
+  }
+
+  .section-label::before {
+    content: "";
+    @apply h-px w-6 bg-gradient-to-r from-primary to-transparent;
+  }
+
+  .noise-overlay {
+    background-image: var(--noise);
+    opacity: 0.025;
+    pointer-events: none;
   }
 }

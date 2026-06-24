@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { config } from '@/lib/config';
 
 /**
  * Custom hook to keep both the frontend and backend servers alive
@@ -18,11 +19,13 @@ export const useKeepAlive = () => {
         console.log('Frontend keep-alive ping sent');
 
         // Ping the backend
-        await fetch('https://manimate-backend.onrender.com/', {
-          method: 'HEAD',
-          cache: 'no-cache',
-        });
-        console.log('Backend keep-alive ping sent');
+        if (config.backendUrl) {
+          await fetch(`${config.backendUrl}/`, {
+            method: 'HEAD',
+            cache: 'no-cache',
+          });
+          console.log('Backend keep-alive ping sent');
+        }
       } catch (error) {
         console.warn('Keep-alive ping failed:', error);
       }

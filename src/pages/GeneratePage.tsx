@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2, Play } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Loader2, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { getBackendUrl } from "@/lib/config";
+import { PageBackground } from "@/components/layout/PageBackground";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 const GeneratePage = () => {
   const [prompt, setPrompt] = useState("");
@@ -19,6 +22,7 @@ const GeneratePage = () => {
   const [videoLoading, setVideoLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   
   // Animation hooks
   const inputAnimation = useScrollAnimation({ threshold: 0.3 });
@@ -49,6 +53,13 @@ const GeneratePage = () => {
 
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  useEffect(() => {
+    const urlPrompt = searchParams.get("prompt");
+    if (urlPrompt) {
+      setPrompt(urlPrompt);
+    }
+  }, [searchParams]);
 
   // Save prompt to database
   const savePromptToDatabase = async (promptText: string, status: string = 'processing', videoUrl?: string) => {
@@ -153,7 +164,7 @@ const GeneratePage = () => {
     setCurrentPromptId(promptId);
     
     try {
-        const response = await fetch("https://manimate-backend.onrender.com/generate/", {
+        const response = await fetch(getBackendUrl("/generate/"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -166,7 +177,7 @@ const GeneratePage = () => {
         console.log("Backend response:", data);
         
         // Use the full backend URL for the video
-        const fullVideoUrl = `https://manimate-backend.onrender.com${data.video_url}`;
+        const fullVideoUrl = getBackendUrl(data.video_url);
         console.log("Constructed video URL:", fullVideoUrl);
         
         // Reset video error state
@@ -212,40 +223,31 @@ const GeneratePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-background relative overflow-hidden">
-      {/* Background grid pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-      
-      {/* Header - responsive */}
-      <header className="relative z-10 p-4 sm:p-6 border-b border-border/20 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link to="/">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground text-xs sm:text-sm">
-              <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Back to Home</span>
-              <span className="sm:hidden">Back</span>
-            </Button>
-          </Link>
-          <h1 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+    <div className="relative min-h-screen overflow-hidden">
+      <PageBackground intensity="subtle" />
+
+      <PageHeader
+        showBack
+        backLabel="Home"
+        centerContent={
+          <h1 className="font-display text-lg font-bold text-gradient sm:text-xl">
             Manimate Studio
           </h1>
-          <div className="w-16 sm:w-20" /> {/* Spacer for center alignment */}
-        </div>
-      </header>
+        }
+      />
 
-      {/* Main content - responsive */}
       <div className="relative z-10 p-4 sm:p-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 min-h-[calc(100vh-120px)]">
           {/* Left side - Input */}
           <div className="space-y-4 sm:space-y-6">
             <Card 
               ref={inputAnimation.ref}
-              className={`bg-card/80 backdrop-blur-xl border-border/50 transition-all duration-1000 hover:bg-card/90 hover:scale-[1.02] hover:shadow-xl ${
+              className={`glass-card border-0 bg-transparent transition-all duration-1000 ${
                 inputAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
               <CardHeader className="pb-4 sm:pb-6">
-                <CardTitle className="text-lg sm:text-xl font-semibold animate-fade-in">
+                <CardTitle className="font-display text-lg sm:text-xl font-semibold">
                   Describe Your Animation
                 </CardTitle>
               </CardHeader>
@@ -254,13 +256,13 @@ const GeneratePage = () => {
                   placeholder="Describe your animation idea... For example: 'A 3D visualization of the Pythagorean theorem with animated triangles and mathematical equations'"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-[150px] sm:min-h-[200px] resize-none text-sm sm:text-base transition-all duration-300 focus:scale-[1.02] hover:shadow-md"
+                  className="min-h-[150px] sm:min-h-[200px] resize-none border-white/10 bg-background/50 text-sm sm:text-base"
                 />
                 <Button
                   onClick={handleGenerate}
-                  variant="glow"
+                  variant="hero"
                   size="xl"
-                  className="w-full text-sm sm:text-base transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 hover:translate-y-[-2px] hover:bg-gradient-to-r hover:from-primary hover:to-accent group relative overflow-hidden"
+                  className="w-full text-sm sm:text-base"
                   disabled={isGenerating}
                 >
                   {isGenerating ? (
@@ -283,12 +285,12 @@ const GeneratePage = () => {
             {/* Example prompts - responsive */}
             <Card 
               ref={examplesAnimation.ref}
-              className={`bg-card/60 backdrop-blur-xl border-border/30 transition-all duration-1000 hover:bg-card/70 hover:scale-[1.02] ${
+              className={`glass-card border-0 bg-transparent transition-all duration-1000 ${
                 examplesAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
               <CardHeader className="pb-3 sm:pb-6">
-                <CardTitle className="text-base sm:text-lg font-medium text-muted-foreground animate-fade-in">
+                <CardTitle className="text-base sm:text-lg font-medium text-muted-foreground">
                   Example Prompts
                 </CardTitle>
               </CardHeader>
@@ -303,7 +305,7 @@ const GeneratePage = () => {
                     key={index}
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start text-left h-auto py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm hover:bg-primary/10 hover:scale-105 transition-all duration-300 hover:shadow-md animate-fade-in"
+                    className="w-full justify-start text-left h-auto py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm hover:bg-primary/10"
                     style={{ animationDelay: `${index * 100}ms` }}
                     onClick={() => setPrompt(example)}
                   >
@@ -318,17 +320,17 @@ const GeneratePage = () => {
           <div className="space-y-4 sm:space-y-6">
             <Card 
               ref={outputAnimation.ref}
-              className={`bg-card/80 backdrop-blur-xl border-border/50 h-full transition-all duration-1000 hover:bg-card/90 hover:scale-[1.01] hover:shadow-xl ${
+              className={`glass-card h-full border-0 bg-transparent transition-all duration-1000 ${
                 outputAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
               <CardHeader className="pb-4 sm:pb-6">
-                <CardTitle className="text-lg sm:text-xl font-semibold animate-fade-in">
+                <CardTitle className="font-display text-lg sm:text-xl font-semibold">
                   Generated Animation
                 </CardTitle>
               </CardHeader>
               <CardContent className="h-full">
-                <div className="rounded-lg bg-muted/50 border border-border/30 min-h-[300px] sm:min-h-[400px] md:h-[400px] lg:h-[500px] flex items-center justify-center relative overflow-hidden">
+                <div className="rounded-xl border border-white/10 bg-muted/30 min-h-[300px] sm:min-h-[400px] md:h-[400px] lg:h-[500px] flex items-center justify-center relative overflow-hidden">
                   {isGenerating ? (
                     <div className="text-center space-y-4">
                       <div className="relative w-16 h-16 mx-auto">

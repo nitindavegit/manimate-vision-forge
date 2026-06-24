@@ -1,45 +1,47 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Play, ArrowRight, Circle, Zap, Brain, Video, Sparkles } from "lucide-react";
-import { useGSAPFadeIn, useGSAPStagger, useGSAPHero, useGSAPButton, useGSAPTextReveal, useGSAPMorphing, useGSAPParallax } from "@/hooks/useGSAPAnimations";
+import { Play, ArrowRight, Brain, Zap, Video, Sparkles, ChevronDown } from "lucide-react";
+import { PageBackground } from "@/components/layout/PageBackground";
+import { PageHeader } from "@/components/layout/PageHeader";
+import {
+  useGSAPFadeIn,
+  useGSAPStagger,
+  useGSAPHero,
+  useGSAPButton,
+  useGSAPTextReveal,
+} from "@/hooks/useGSAPAnimations";
+
+const benefits = [
+  {
+    title: "AI-Powered Visualizations",
+    description: "Convert ideas and prompts into polished Manim animations — no manual scripting required.",
+    icon: Brain,
+  },
+  {
+    title: "Educational Impact",
+    description: "Bring clarity to complex topics — from calculus to neural networks — with cinematic motion.",
+    icon: Zap,
+  },
+  {
+    title: "End-to-End Automation",
+    description: "Describe your concept in plain language. We handle the code, rendering, and delivery.",
+    icon: Video,
+  },
+];
 
 const Index = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
-  // GSAP animation hooks
   const heroRef = useGSAPHero();
   const sectionRef = useGSAPFadeIn(0.2);
   const benefitsRef = useGSAPStagger(0.15);
   const ctaRef = useGSAPFadeIn(0.4);
   const titleRef = useGSAPTextReveal();
   const buttonRef = useGSAPButton();
-  const morphingRef1 = useGSAPMorphing();
-  const morphingRef2 = useGSAPMorphing();
-  const parallaxRef = useGSAPParallax(0.3);
-  
-  const benefits = [
-    {
-      title: "AI-Powered Visualizations",
-      description: "Leverage the power of AI to convert ideas, prompts into animations.",
-      icon: Brain
-    },
-    {
-      title: "Educational & Technical Impact", 
-      description: "Bring clarity to complex topics — from math equations to AI workflows",
-      icon: Zap
-    },
-    {
-      title: "End-to-End Automation",
-      description: "No animation or coding expertise required. Just describe it, and we animate it.",
-      icon: Video
-    }
-  ];
-  
   const benefitsStaggerRef = useGSAPStagger(0.2);
 
   useEffect(() => {
@@ -48,7 +50,6 @@ const Index = () => {
 
   const handleTryNow = () => {
     if (showPrompt && prompt.trim()) {
-      // Navigate to generate page with prompt
       window.location.href = `/generate?prompt=${encodeURIComponent(prompt)}`;
     } else {
       setShowPrompt(true);
@@ -56,209 +57,169 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-card relative overflow-hidden">
-      {/* Animated background layers */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5 animate-[pulse_8s_ease-in-out_infinite]" style={{ backgroundSize: '60px 60px' }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-[fade-in_2s_ease-out]" />
-      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/2 to-transparent animate-[fade-in_3s_ease-out_1s]" />
-      
-      {/* Floating orbs for ambiance with morphing animation */}
-      <div ref={morphingRef1} className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/10 rounded-full blur-xl opacity-60" />
-      <div ref={morphingRef2} className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-accent/10 rounded-full blur-xl opacity-40" />
-      <div ref={parallaxRef} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full blur-3xl opacity-30" />
-      
-      {/* Logo in top left corner - responsive */}
-      <div className={`absolute top-4 left-4 z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-        <div className="flex items-center">
-          <img 
-            src="/lovable-uploads/b5ec7487-efae-495b-b279-ffc4365662e9.png" 
-            alt="Manimate Logo" 
-            className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain" 
-          />
-        </div>
-      </div>
+    <div className="relative min-h-screen overflow-hidden">
+      <PageBackground intensity="vivid" />
 
-      {/* Navigation - responsive with mobile optimization */}
-      <nav className={`absolute top-4 right-4 z-10 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-        <Card className="bg-card/80 backdrop-blur-xl border-border/20">
-          <CardContent className="p-2 sm:p-3">
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <Link to="/auth">
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground text-xs sm:text-sm px-2 sm:px-3">
-                  Login
-                </Button>
-              </Link>
-              <Link to="/auth">
-                <Button variant="outline" size="sm" className="border-border/50 hover:border-primary/50 bg-background/50 text-xs sm:text-sm px-2 sm:px-3">
-                  Sign Up
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </nav>
+      <PageHeader showAuth />
 
-      {/* Main content centered - responsive padding */}
-      <div className="flex min-h-screen items-center justify-center px-4 sm:px-6 md:px-8 pt-20 sm:pt-16 md:pt-0">
-        <div className="max-w-6xl mx-auto text-center space-y-8 sm:space-y-12 md:space-y-16">
-          
-          {/* Hero heading - responsive and animated */}
-          <div 
-            ref={heroRef}
-            className="space-y-6 sm:space-y-8"
+      {/* Hero */}
+      <section className="relative z-10 flex min-h-[calc(100vh-80px)] flex-col items-center justify-center px-4 pb-16 pt-8 sm:px-6">
+        <div ref={heroRef} className="mx-auto max-w-5xl text-center">
+          <div
+            className={`mb-6 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
           >
-            <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-card/70 transition-all duration-700 hover:scale-[1.02] hover:shadow-2xl group">
-              <h1 ref={titleRef} className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-8xl font-bold leading-tight tracking-tight">
-                <span className="text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Generate Video Using </span>
-                <br />
-                <span className="text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/60 transition-all duration-500">Manim. </span>
-                <span className="text-primary font-light italic bg-gradient-to-r from-primary to-accent bg-clip-text">With AI.</span>
-              </h1>
-            </Card>
+            <span className="section-label">AI × Manim</span>
           </div>
 
-          {/* CTA Section - responsive */}
-          <div className={`space-y-6 sm:space-y-8 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h1
+            ref={titleRef}
+            className="font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+          >
+            <span className="text-gradient-hero">Generate Video</span>
+            <br />
+            <span className="text-foreground/90">Using </span>
+            <span className="text-gradient">Manim.</span>
+            <br />
+            <span className="font-medium italic text-primary/90">With AI.</span>
+          </h1>
+
+          <p
+            className={`mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-8 sm:text-lg md:text-xl transition-all duration-1000 delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          >
+            Turn mathematical concepts, science ideas, and technical topics into
+            beautifully rendered animations — in seconds.
+          </p>
+
+          <div
+            className={`mt-10 space-y-4 transition-all duration-1000 delay-500 sm:mt-12 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          >
             {!showPrompt ? (
-              <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 hover:bg-card/70 transition-all duration-500">
+              <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <Link to="/auth">
-                  <Button
-                    ref={buttonRef}
-                    variant="default" 
-                    size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-accent rounded-lg transition-all duration-300"
-                  >
+                  <Button ref={buttonRef} variant="hero" size="lg" className="min-w-[180px] px-8">
                     Get Started
-                    <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 transition-transform hover:translate-x-1" />
+                    <ArrowRight className="ml-1 h-4 w-4" />
                   </Button>
                 </Link>
-              </Card>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="min-w-[180px] border-white/10 bg-white/[0.03] px-8 backdrop-blur-sm hover:border-primary/30 hover:bg-white/[0.06]"
+                  onClick={() => setShowPrompt(true)}
+                >
+                  Try a Prompt
+                </Button>
+              </div>
             ) : (
-              <Card className="max-w-xs sm:max-w-md mx-auto bg-card/80 backdrop-blur-xl border-border/20 p-4 sm:p-6 animate-scale-in">
-                <CardContent className="space-y-4 p-0">
-                  <Input
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Describe your animation idea..."
-                    className="h-10 sm:h-12 text-sm sm:text-base bg-background/50 border-border/50 focus:border-primary transition-all duration-300 focus:scale-[1.02]"
-                    onKeyDown={(e) => e.key === 'Enter' && handleTryNow()}
-                  />
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <div className="glass-card mx-auto max-w-lg p-6 animate-scale-in">
+                <Input
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder="Describe your animation idea..."
+                  className="h-12 border-white/10 bg-background/60 text-base focus:border-primary/50"
+                  onKeyDown={(e) => e.key === "Enter" && handleTryNow()}
+                />
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                  <Button
+                    ref={buttonRef}
+                    onClick={handleTryNow}
+                    variant="hero"
+                    size="lg"
+                    className="flex-1"
+                    disabled={!prompt.trim()}
+                  >
+                    <Play className="h-4 w-4" />
+                    Generate Video
+                  </Button>
+                  <Link to="/generate" className="flex-1">
                     <Button
-                      ref={buttonRef}
-                      onClick={handleTryNow}
-                      variant="default"
+                      variant="outline"
                       size="lg"
-                      className="flex-1 bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-primary hover:to-accent text-sm sm:text-base transition-all duration-300"
-                      disabled={!prompt.trim()}
+                      className="w-full border-white/10 bg-white/[0.03]"
                     >
-                      <Play className="h-4 w-4 mr-2" />
-                      Generate Video
+                      Full Studio
                     </Button>
-                    <Link to="/generate" className="flex-1">
-                      <Button variant="outline" size="lg" className="w-full border-border/50 bg-background/50 text-sm sm:text-base hover:scale-105 transition-all duration-300">
-                        Full Studio
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
-
-          {/* Scroll indicator - responsive */}
-          <div className={`pt-8 sm:pt-12 md:pt-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <Card className="inline-block bg-card/40 backdrop-blur-xl border-border/20 p-2 sm:p-3">
-              <div className="w-5 h-8 sm:w-6 sm:h-10 border border-border/30 rounded-full flex justify-center">
-                <div className="w-1 h-2 sm:h-3 bg-muted-foreground rounded-full mt-1 sm:mt-2 animate-bounce"></div>
-              </div>
-            </Card>
-          </div>
         </div>
-      </div>
 
-      {/* Secondary content section - fully responsive cards */}
-      <div className="relative z-10 px-4 sm:px-6 md:px-8 pb-12 sm:pb-16 md:pb-20">
-        <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16 md:space-y-20">
-          
-          {/* AI POWERED ANIMATION section */}
-          <div 
-            ref={sectionRef}
-            className="text-center"
-          >
-            <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 hover:bg-card/70 transition-all duration-500 hover:scale-[1.02]">
-              <p className="text-xs sm:text-sm font-medium text-primary uppercase tracking-wider mb-4 sm:mb-6 animate-fade-in">
-                AI POWERED ANIMATION
-              </p>
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold leading-tight max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                We turn your ideas into dynamic visual stories—powered by AI and rendered with Manim. 
-                From math to machine learning, we animate what matters.
-              </h2>
-            </Card>
+        <div
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-1000 delay-700 ${isVisible ? "opacity-60" : "opacity-0"}`}
+        >
+          <ChevronDown className="h-6 w-6 animate-bounce text-muted-foreground" />
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="relative z-10 px-4 pb-24 sm:px-6">
+        <div className="mx-auto max-w-6xl space-y-20">
+          <div ref={sectionRef} className="text-center">
+            <span className="section-label mb-4">How it works</span>
+            <h2 className="font-display mt-4 text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-5xl">
+              Ideas into{" "}
+              <span className="text-gradient">dynamic visual stories</span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-muted-foreground sm:text-lg">
+              Powered by AI and rendered with Manim — from math to machine learning,
+              we animate what matters.
+            </p>
           </div>
 
-          {/* Benefits section */}
-          <div 
-            ref={benefitsRef}
-            className="space-y-6 sm:space-y-8 md:space-y-12"
-          >
-            <Card className="bg-card/60 backdrop-blur-xl border-border/20 p-4 sm:p-6 md:p-8 lg:p-12 mb-6 sm:mb-8 md:mb-12 hover:bg-card/70 transition-all duration-500">
-              <p className="text-xs sm:text-sm font-medium text-primary uppercase tracking-wider mb-4 sm:mb-6 text-center animate-fade-in">
-                BENEFITS
-              </p>
-              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-4 sm:mb-6 md:mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>Why Choose Us?</h3>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground text-center max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                Everything you need to turn concepts into captivating visuals — fast, intelligent, and beautifully rendered.
-              </p>
-            </Card>
-            
-            <div ref={benefitsStaggerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+          <div ref={benefitsRef} className="space-y-8">
+            <div className="text-center">
+              <span className="section-label mb-4">Benefits</span>
+              <h3 className="font-display mt-4 text-2xl font-bold sm:text-3xl">
+                Why Choose Manimate?
+              </h3>
+            </div>
+
+            <div
+              ref={benefitsStaggerRef}
+              className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6"
+            >
               {benefits.map((benefit, index) => (
-                 <Card 
-                  key={index} 
-                  className="bg-card/80 backdrop-blur-xl border-border/20 p-4 sm:p-6 text-center hover:bg-card/90 transition-all duration-700 hover:scale-105 transform hover:shadow-xl hover:rotate-1 group relative overflow-hidden"
+                <div
+                  key={index}
+                  className="glass-card group p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-glow-cyan sm:p-8"
                 >
-                  {/* Animated background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/3 to-transparent animate-[pulse_4s_ease-in-out_infinite] opacity-60" />
-                  <CardContent className="relative p-0 space-y-3 sm:space-y-4 z-10">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto border border-primary/20 hover:bg-primary/20 transition-all duration-500 hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/20">
-                      <benefit.icon className="h-6 w-6 sm:h-8 sm:w-8 text-primary transition-all duration-500 hover:scale-110 group-hover:rotate-12" />
-                    </div>
-                    <h4 className="text-base sm:text-lg md:text-xl font-semibold hover:text-primary transition-colors duration-500 group-hover:scale-105">{benefit.title}</h4>
-                    <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm md:text-base group-hover:text-foreground/80 transition-colors duration-500">{benefit.description}</p>
-                  </CardContent>
-                </Card>
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 transition-colors duration-300 group-hover:bg-primary/15">
+                    <benefit.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h4 className="font-display text-lg font-semibold sm:text-xl">
+                    {benefit.title}
+                  </h4>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                    {benefit.description}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Final CTA Section */}
-          <div 
-            ref={ctaRef}
-            className="space-y-6 sm:space-y-8"
-          >
-            <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 backdrop-blur-xl border-border/20 p-6 sm:p-8 md:p-12 lg:p-16 text-center hover:shadow-2xl transition-all duration-500 hover:scale-[1.02]">
-              <div className="space-y-6 sm:space-y-8">
-                <div className="flex justify-center">
-                  <Sparkles className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-primary animate-pulse hover:animate-bounce hover:text-accent transition-colors duration-300" />
-                </div>
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold animate-fade-in">Ready to Visualize Smarter? Let's Go</h3>
-                <Link to="/auth">
-                  <Button 
-                    variant="default" 
-                    size="lg"
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-medium bg-primary text-primary-foreground hover:bg-gradient-to-r hover:from-accent hover:to-primary rounded-lg transform hover:scale-110 transition-all duration-500 hover:shadow-xl hover:shadow-accent/30 hover:rotate-2"
-                  >
-                    Get Started
-                    <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 transition-transform hover:translate-x-2" />
-                  </Button>
-                </Link>
-              </div>
-            </Card>
+          <div ref={ctaRef} className="glass-card p-8 text-center sm:p-12 md:p-16">
+            <Sparkles className="mx-auto mb-6 h-10 w-10 text-primary" />
+            <h3 className="font-display text-2xl font-bold sm:text-3xl md:text-4xl">
+              Ready to visualize smarter?
+            </h3>
+            <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+              Join educators and creators turning concepts into captivating motion graphics.
+            </p>
+            <Link to="/auth" className="mt-8 inline-block">
+              <Button variant="hero" size="lg" className="px-10">
+                Start Creating
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
+
+      <footer className="relative z-10 border-t border-white/[0.04] px-4 py-8 text-center text-sm text-muted-foreground">
+        <p>© {new Date().getFullYear()} Manimate. AI-powered Manim animations.</p>
+      </footer>
     </div>
   );
 };
