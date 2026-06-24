@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 interface PageHeaderProps {
   showAuth?: boolean;
@@ -19,6 +20,8 @@ export function PageHeader({
   centerContent,
   className,
 }: PageHeaderProps) {
+  const { user, loading } = useAuth();
+
   return (
     <header
       className={cn(
@@ -58,18 +61,28 @@ export function PageHeader({
       )}
 
       <div className="flex min-w-[120px] justify-end">
-        {showAuth && (
+        {showAuth && !loading && (
           <div className="flex items-center gap-2">
-            <Link to="/auth">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                Log in
-              </Button>
-            </Link>
-            <Link to="/auth">
-              <Button variant="hero" size="sm">
-                Get Started
-              </Button>
-            </Link>
+            {user ? (
+              <Link to="/generate">
+                <Button variant="hero" size="sm">
+                  Go to Studio
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                    Log in
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button variant="hero" size="sm">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>

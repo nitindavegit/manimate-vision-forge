@@ -10,12 +10,20 @@ import { useToast } from "@/hooks/use-toast";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { useAuth } from "@/hooks/useAuth";
 
 const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const cardAnimation = useScrollAnimation({ threshold: 0.3 });
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/generate", { replace: true });
+    }
+  }, [user, loading, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Play, ArrowRight, Brain, Zap, Video, Sparkles, ChevronDown } from "lucide-react";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { useAuth } from "@/hooks/useAuth";
 import {
   useGSAPFadeIn,
   useGSAPStagger,
@@ -35,6 +36,8 @@ const Index = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const heroRef = useGSAPHero();
   const sectionRef = useGSAPFadeIn(0.2);
@@ -50,7 +53,7 @@ const Index = () => {
 
   const handleTryNow = () => {
     if (showPrompt && prompt.trim()) {
-      window.location.href = `/generate?prompt=${encodeURIComponent(prompt)}`;
+      navigate(`/generate?prompt=${encodeURIComponent(prompt)}`);
     } else {
       setShowPrompt(true);
     }
@@ -95,7 +98,7 @@ const Index = () => {
           >
             {!showPrompt ? (
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Link to="/auth">
+                <Link to={user ? "/generate" : "/auth"}>
                   <Button ref={buttonRef} variant="hero" size="lg" className="min-w-[180px] px-8">
                     Get Started
                     <ArrowRight className="ml-1 h-4 w-4" />
@@ -207,7 +210,7 @@ const Index = () => {
             <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
               Join educators and creators turning concepts into captivating motion graphics.
             </p>
-            <Link to="/auth" className="mt-8 inline-block">
+            <Link to={user ? "/generate" : "/auth"} className="mt-8 inline-block">
               <Button variant="hero" size="lg" className="px-10">
                 Start Creating
                 <ArrowRight className="ml-1 h-4 w-4" />
