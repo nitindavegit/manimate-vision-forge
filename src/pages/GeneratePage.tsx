@@ -278,10 +278,10 @@ const GeneratePage = () => {
               </CardHeader>
               <CardContent className="space-y-2 sm:space-y-3">
                 {[
-                  "A visualization of how neural networks learn",
-                  "The mathematical beauty of the Fibonacci sequence",
-                  "Explaining calculus derivatives with moving graphs",
-                  "A 3D tour through the solar system",
+                  "1. Fibonacci Spiral & Golden Ratio — Create a Golden Spiral using quarter-circles inside squares whose side lengths follow the Fibonacci sequence (1, 1, 2, 3, 5, 8). Start from the center and expand outward. Label each square with its Fibonacci number. Show the golden ratio formula \u03C6 = (1+\u221A5)/2. Use a warm color palette (gold, amber). Animate the spiral being drawn arc by arc.",
+                  "2. Pythagorean Theorem Proof — Show a right triangle with sides labeled a, b, c. Construct a square of side (a+b) containing the triangle repeated four times. Highlight the area equality: a\u00B2 + b\u00B2 = c\u00B2. Use contrasting colors for each square region. Animate by fading in the triangle first, then building the surrounding squares.",
+                  "3. Unit Circle \u2192 Sine Wave — Draw a unit circle on the left half of the screen. Place a point rotating on the circle with an angle \u03B8 shown. On the right half, trace the sine wave sin(\u03B8) as the point rotates. Show \u03B8 increasing from 0 to 2\u03C0. Animate the rotating point and the sine curve being plotted simultaneously. Use blue for the circle and red for the sine wave.",
+                  "4. Bubble Sort Visualization — Show an array of 8 vertical bars of random heights (values 1-8). Animate a bubble sort: highlight the two bars being compared in yellow, swap them if out of order (with a smooth vertical motion), mark sorted bars in green. Repeat until all bars are green. Add a title 'Bubble Sort' above. Keep bars within frame bounds.",
                 ].map((example, index) => (
                   <Button
                     key={index}
